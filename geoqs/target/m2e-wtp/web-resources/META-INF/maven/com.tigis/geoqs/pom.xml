@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.tigis</groupId>
+	<artifactId>geoqs</artifactId>
+	<packaging>war</packaging>
+	<version>${geoqs.version}</version>
+	<name>geoqs Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<geoqs.version>1.0.0-SNAPSHOT</geoqs.version>
+	</properties>
+
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>servlet-api</artifactId>
+		    <version>2.5</version>
+		    <scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.tigis</groupId>
+			<artifactId>geoqs-core</artifactId>
+			<version>${geoqs.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<finalName>geoqs</finalName>
+	</build>
+</project>
