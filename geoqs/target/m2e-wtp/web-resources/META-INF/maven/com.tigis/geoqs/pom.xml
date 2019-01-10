@@ -180,11 +180,11 @@
 			<groupId>cn.stylefeng.guns</groupId>
 			<artifactId>guns-generator</artifactId>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>javax.servlet</groupId>
-		    <artifactId>servlet-api</artifactId>
-		    <scope>provided</scope>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -193,14 +193,19 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>com.tigis</groupId>
 			<artifactId>geoqs-core</artifactId>
 			<version>${geoqs.version}</version>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<finalName>geoqs</finalName>
 	</build>

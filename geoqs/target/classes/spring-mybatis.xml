@@ -61,7 +61,8 @@
 			</list>
 		</property>
 		<property name="configLocation" value="classpath:mybatis-config.xml" />
-		<property name="typeAliasesPackage" value="cn.stylefeng.guns" />
+		<property name="typeAliasesPackage" value="cn.stylefeng.guns.modular.system.dao,
+					cn.stylefeng.guns.modular.system.model" />
 		<property name="plugins">
 			<array>
 				<!-- 分页插件配置 -->

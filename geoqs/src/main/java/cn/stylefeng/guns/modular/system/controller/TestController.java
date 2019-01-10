@@ -1,17 +1,21 @@
 package cn.stylefeng.guns.modular.system.controller;
 
-import javax.validation.Valid;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.stylefeng.guns.modular.system.model.User;
+import cn.stylefeng.guns.modular.system.model.Tester;
 
 @Controller
 @RequestMapping("/test")
 public class TestController
 {
+	private static Logger logger = LoggerFactory.getLogger(TestController.class);
 	
 	/**
 	 * 获得用户名称
@@ -20,8 +24,24 @@ public class TestController
 	 */
 	@ResponseBody
 	@RequestMapping("/user")
-	public User getUser(@Valid User user)
+	public Tester getUser(@Validated Tester user, BindingResult bindingResult)
 	{
-		return user;
+		if(bindingResult.hasErrors())
+		{
+			for (ObjectError error : bindingResult.getAllErrors())
+			{
+				logger.info("Error occured when validate: " + error);
+			}
+			Tester user1 = new Tester();
+			user1.setName("Error");
+			return user1;
+		}
+		else {
+			Tester user1 = new Tester();
+			user1.setName("Test");
+			
+			logger.info("User: " + user1);
+			return user1;
+		}
 	}
 }

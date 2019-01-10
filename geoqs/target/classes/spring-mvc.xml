@@ -23,8 +23,8 @@
 		</property>
 	</bean>
 	
-	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
-	<context:component-scan base-package="cn.stylefeng.guns" />
+	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器-->
+	<context:component-scan base-package="cn.stylefeng.guns.modular.system.controller" /> 
 
 	<!--避免IE执行AJAX时，返回JSON出现下载文件 -->
 	<bean id="mappingJacksonHttpMessageConverter"
@@ -154,19 +154,4 @@
             </bean>
         </property>
     </bean>
-  
-    
-    <!-- 缓存配置 -->    
-    <!-- 启用缓存注解功能，这个是必须的，否则注解不会生效，另外，该注解一定要声明在spring主配置文件中才会生效 -->
-	<cache:annotation-driven cache-manager="ehcacheManager" />
-	
-	<!-- cacheManager工厂类，指定ehcache.xml的位置 -->
-	<bean id="ehcacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-		<property name="configLocation" value="classpath:ehcache.xml" />
-	</bean>
-	
-	<!-- 声明cacheManager -->
-	<bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
-		<property name="cacheManager" ref="ehcacheManagerFactory" />
-	</bean>
 </beans>
