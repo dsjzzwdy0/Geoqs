@@ -14,10 +14,10 @@
                         http://www.springframework.org/schema/cache/spring-cache-4.0.xsd
                         ">
 	<!-- 自动扫描 -->	
-	<context:component-scan base-package="cn.stylefeng.guns" />
+	<context:component-scan base-package="com.tigis.geoqs" />
 	
 	<!-- 基础数据所需的运行环境类 -->
-	<bean id="springContextHolder" class="cn.stylefeng.roses.core.util.SpringContextHolder"/>
+	<bean id="springContextHolder" class="com.tigis.geoqs.util.SpringContextHolder"/>
 	
 	<!-- 引入配置文件 -->
 	<bean id="propertyConfigurer"
@@ -25,7 +25,6 @@
 		<property name="locations">
 			<list>
 				<value>classpath:jdbc.properties</value>
-				<value>classpath:/conf/mvc.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -51,60 +50,39 @@
 		<property name="dataSource" ref="dataSource" /> <property name="mapperLocations" 
 		value="classpath:com/loris/soccer/web/mapping/*.xml"></property> </bean> -->
 
-	<bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean">
+	<bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<!-- 自动扫描Mapping.xml文件 -->
 		<property name="mapperLocations">
 			<list>
-			    <value>classpath*:cn/stylefeng/guns/modular/system/dao/mapping/*Mapper.xml</value>
+			    <value>classpath*:com/tigis/geoqs/dao/mapping/*Mapper.xml</value>
 				<value>classpath*:com/loris/stock/repository/mapper/conf/*Mapper.xml</value>
 			</list>
 		</property>
 		<property name="configLocation" value="classpath:mybatis-config.xml" />
-		<property name="typeAliasesPackage" value="cn.stylefeng.guns.modular.system.dao,
-					cn.stylefeng.guns.modular.system.model" />
+		<property name="typeAliasesPackage" value="com.tigis.geoqs.dao,com.tigis.geoqs.model" />
 		<property name="plugins">
 			<array>
 				<!-- 分页插件配置 -->
 				<bean id="paginationInterceptor"
-					class="com.baomidou.mybatisplus.plugins.PaginationInterceptor">
+					class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor">
 					<property name="dialectType" value="mysql" />
 				</bean>
 			</array>
 		</property>
-		<!-- 全局配置注入 -->
-		<property name="globalConfig" ref="globalConfig" />
+		<property name="globalConfig">
+	        <bean class="com.baomidou.mybatisplus.core.config.GlobalConfig">
+	            <property name="refresh" value="true"/>
+	        </bean>
+	    </property>
+		<!-- 全局配置注入
+		<property name="globalConfig" ref="globalConfig" /> -->
 	</bean>
-	
-	<bean id="globalConfig" class="com.baomidou.mybatisplus.entity.GlobalConfiguration">
-        <!-- 
-            AUTO->`0`("数据库ID自增")
-             INPUT->`1`(用户输入ID")
-            ID_WORKER->`2`("全局唯一ID")
-            UUID->`3`("全局唯一ID")
-        -->
-        <property name="idType" value="1" />
-        <!--
-            MYSQL->`mysql`
-            ORACLE->`oracle`
-            DB2->`db2`
-            H2->`h2`
-            HSQL->`hsql`
-            SQLITE->`sqlite`
-            POSTGRE->`postgresql`
-            SQLSERVER2005->`sqlserver2005`
-            SQLSERVER->`sqlserver`
-        -->
-        <!-- Oracle需要添加该项 -->
-        <!-- <property name="dbType" value="oracle" /> -->
-        <!-- 全局表为下划线命名设置 true -->
-        <property name="dbColumnUnderline" value="true" />
-    </bean>
     
 	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
 	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="
-		    cn.stylefeng.guns.modular.system.dao,
+		    com.tigis.geoqs.dao,
 		    com.loris.stock.web.repository.mapper" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
 	</bean>
@@ -134,13 +112,4 @@
 			</bean>
 		</property>
 	</bean> 
-	
-	  <!-- 配置SecurityManager的管理 -->
-	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-	</bean>
-
-    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-       <!-- 引入SecurityManager -->    
-        <property name="securityManager" ref="securityManager"></property>
-    </bean>
 </beans>

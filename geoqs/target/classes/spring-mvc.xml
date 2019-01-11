@@ -24,7 +24,7 @@
 	</bean>
 	
 	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器-->
-	<context:component-scan base-package="cn.stylefeng.guns.modular.system.controller" /> 
+	<context:component-scan base-package="com.tigis.geoqs.controller" /> 
 
 	<!--避免IE执行AJAX时，返回JSON出现下载文件 -->
 	<bean id="mappingJacksonHttpMessageConverter"
@@ -82,9 +82,10 @@
         <property name="order" value="2"/>      
     </bean>
     
+    <!-- 
     <bean name="beetlConfig" class="org.beetl.ext.spring.BeetlGroupUtilConfiguration" init-method="init">
     	<property name="configFileResource" value="classpath:beetl.properties" />
-    </bean>
+    </bean> 
     
     <bean name="viewResovler" class="org.beetl.ext.spring.BeetlSpringViewResolver">
     	<property name="config" ref="beetlConfig" />
@@ -96,7 +97,7 @@
     			<value>/admin/**</value>
     		</list>
     	</property>
-    </bean>
+    </bean>-->
           
     <!-- 配置freeMarker的模板路径 -->      
     <!-- freemaker配置 -->

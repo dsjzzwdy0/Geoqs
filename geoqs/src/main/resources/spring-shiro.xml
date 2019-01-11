@@ -1,57 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:cache="http://www.springframework.org/schema/cache"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
-       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-       http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.0.xsd">
-       
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd  
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd 
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.0.xsd
+        ">
+        
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-		<property name="securityManager" ref="securityManager" />
-		<property name="loginUrl" value="/toLogin" /><!--登录页面， -->
-		<property name="successUrl" value="/success" /><!--登录成功页面，如果自己设置了返回页面，则不跳转 -->
-		<property name="unauthorizedUrl" value="/error" /><!-- 没有权限跳转的地址 -->
+		<property name="securityManager" ref="securityManager" /> <!--加载管理器-->
+		<property name="loginUrl" value="/user/login" />    <!--没有登录的时候，跳转到这个页面-->
+		<property name="unauthorizedUrl" value="/user/nopermission" /> <!--当没有权限的时候，跳转到这个url-->
+		 
 		<property name="filterChainDefinitions">
 			<value>
-				/toLogin=anon <!--表示都可以访问 -->
-				/error=authc 
-				/test=anon 
-				/login=anon 
-				/home=perms[home] <!--perms表示需要该权限才能访问的页面 -->
-				/admin=roles["admin"] <!-- roles["admin,user"] 只有拥有admin角色的用户才可访问，同时需要拥有多个角色的话，用引号引起来，中间用逗号隔开 --> <!--/admin=anon -->
-				/**=authc <!--authc表示需要认证才能访问的页面 -->
+				/content/** = anon <!-- 不需要任何权限 -->
+				/user/login = anon <!--可以不需要登录-->
+				/user/readName = authc, perms[/readName]  <!-- perms 表示需要该权限才能访问的页面 -->
+				/user/readData = authc, perms[/readData]
+				/user/* = authc <!-- authc 表示需要认证才能访问的页面 -->
 			</value>
 		</property>
 	</bean>
-	
+
+	<!-- 自定义Realm -->
+	<bean id="geoqsShiroRealm" class="com.tigis.geoqs.security.GeoqsRealm">
+	</bean>
+
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-		<property name="realm" ref="MyRealm" />
-	</bean> 
-	
-	<!-- 自定义Realm -->	
-	<bean id="MyRealm" class="cn.stylefeng.guns.realms.MyRealm"> <!-- 定义凭证匹配器 -->
-		<property name="credentialsMatcher" ref="credentialsMatcher"></property>
-	</bean> 
-	
-	<!-- 凭证匹配器 org.apache.shiro.authc.credential.HashedCredentialsMatcher -->
-	<bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher"> <!-- 加密算法名称 -->
-		<property name="hashAlgorithmName" value="MD5"></property> <!-- 散列次数 --> <!--<property name="hashIterations" value="2"></property> -->
+		<!-- 注入realm -->
+		<property name="realm" ref="geoqsShiroRealm"/>
 	</bean>
-	
-	 
-    <!-- 缓存配置 -->    
-    <!-- 启用缓存注解功能，这个是必须的，否则注解不会生效，另外，该注解一定要声明在spring主配置文件中才会生效 -->
-	<cache:annotation-driven cache-manager="ehcacheManager" />
-	
-	<!-- cacheManager工厂类，指定ehcache.xml的位置 -->
-	<bean id="ehcacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-		<property name="configLocation" value="classpath:ehcache.xml" />
-	</bean>
-	
-	<!-- 声明cacheManager -->
-	<bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
-		<property name="cacheManager" ref="ehcacheManagerFactory" />
-	</bean>
+
+	<!--声明一个Service 注入到自定义Realm
+	<bean id="accountService" class="com.Service.Impl.ShiroServiceImpl"/>-->
+	<!-- <bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager"> 
+		<property name="cacheManager" ref="cacheManager" /> </bean> -->
 </beans>
