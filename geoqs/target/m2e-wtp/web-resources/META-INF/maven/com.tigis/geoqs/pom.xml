@@ -220,7 +220,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.servlet.jsp.jstl</groupId>
+			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 		</dependency>
 
@@ -228,6 +228,12 @@
 		<dependency>
 		    <groupId>org.apache.taglibs</groupId>
 		    <artifactId>taglibs-standard-jstlel</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.tigis</groupId>
+			<artifactId>geoqs-sys</artifactId>
+			<version>${geoqs.version}</version>
 		</dependency>
 
 		<dependency>

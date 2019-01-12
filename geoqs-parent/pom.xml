@@ -29,6 +29,7 @@
 		<slf4j.version>1.7.25</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
 		<mybatisplus.version>3.0.7.1</mybatisplus.version>
+		<hutool.version>4.1.2</hutool.version>
 	</properties>
 
 	<dependencyManagement>
@@ -191,7 +192,7 @@
 			
 			<!-- https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/jstl -->
 			<dependency>
-			    <groupId>javax.servlet.jsp.jstl</groupId>
+			    <groupId>javax.servlet</groupId>
 			    <artifactId>jstl</artifactId>
 			    <version>1.2</version>
 			</dependency>
@@ -274,6 +275,13 @@
 				<groupId>commons-dbcp</groupId>
 				<artifactId>commons-dbcp</artifactId>
 				<version>1.2.2</version>
+			</dependency>
+			
+			<!-- https://mvnrepository.com/artifact/cn.hutool/hutool-core -->
+			<dependency>
+			    <groupId>cn.hutool</groupId>
+			    <artifactId>hutool-core</artifactId>
+			    <version>${hutool.version}</version>
 			</dependency>
 
 			<!--swagger -->
