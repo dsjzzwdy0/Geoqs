@@ -16,8 +16,8 @@
 	<!-- 自动扫描 -->	
 	<context:component-scan base-package="com.tigis.geoqs" />
 	
-	<!-- 基础数据所需的运行环境类 
-	<bean id="springContextHolder" class="com.tigis.geoqs.util.SpringContextHolder"/>-->
+	<!-- 基础数据所需的运行环境类 -->
+	<bean id="springContextHolder" class="com.tigis.geoqs.util.SpringContextHolder"/>
 	
 	<!-- 引入配置文件 -->
 	<bean id="propertyConfigurer"
@@ -55,12 +55,12 @@
 		<!-- 自动扫描Mapping.xml文件 -->
 		<property name="mapperLocations">
 			<list>
-			    <value>classpath*:com/tigis/geoqs/dao/mapping/*Mapper.xml</value>
+			    <value>classpath*:com/tigis/geoqs/**/dao/mapping/*Mapper.xml</value>
 				<value>classpath*:com/loris/stock/repository/mapper/conf/*Mapper.xml</value>
 			</list>
 		</property>
 		<property name="configLocation" value="classpath:mybatis-config.xml" />
-		<property name="typeAliasesPackage" value="com.tigis.geoqs.dao,com.tigis.geoqs.model" />
+		<property name="typeAliasesPackage" value="com.tigis.geoqs.sys.dao,com.tigis.geoqs.sys.model" />
 		<property name="plugins">
 			<array>
 				<!-- 分页插件配置 -->
@@ -82,7 +82,7 @@
 	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
 	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="
-		    com.tigis.geoqs.dao,
+		    com.tigis.geoqs.sys.dao,
 		    com.loris.stock.web.repository.mapper" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
 	</bean>

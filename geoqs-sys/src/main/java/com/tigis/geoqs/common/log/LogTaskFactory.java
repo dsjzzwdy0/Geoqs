@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.tigis.geoqs.log;
+package com.tigis.geoqs.common.log;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.tigis.geoqs.common.constant.state.LogSucceed;
 import com.tigis.geoqs.common.constant.state.LogType;
@@ -29,6 +27,8 @@ import com.tigis.geoqs.util.ToolUtil;
 
 import java.util.TimerTask;
 
+import org.apache.log4j.Logger;
+
 /**
  * 日志操作任务创建工厂
  *
@@ -37,7 +37,7 @@ import java.util.TimerTask;
  */
 public class LogTaskFactory {
 
-    private static Logger logger = LoggerFactory.getLogger(LogManager.class);
+    private static Logger logger = Logger.getLogger(LogManager.class);
     private static LoginLogMapper loginLogMapper = SpringContextHolder.getBean(LoginLogMapper.class);
     private static OperationLogMapper operationLogMapper = SpringContextHolder.getBean(OperationLogMapper.class);
 

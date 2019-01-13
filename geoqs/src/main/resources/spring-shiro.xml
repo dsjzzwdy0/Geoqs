@@ -30,7 +30,7 @@
 	</bean>
 
 	<!-- 自定义Realm -->
-	<bean id="geoqsShiroRealm" class="com.tigis.geoqs.security.GeoqsRealm">
+	<bean id="geoqsShiroRealm" class="com.tigis.geoqs.security.ShiroDbRealm">
 	</bean>
 
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">

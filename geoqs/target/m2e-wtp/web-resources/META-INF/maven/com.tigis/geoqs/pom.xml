@@ -235,6 +235,12 @@
 			<artifactId>geoqs-sys</artifactId>
 			<version>${geoqs.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.tigis</groupId>
+			<artifactId>geoqs-core</artifactId>
+			<version>${geoqs.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>

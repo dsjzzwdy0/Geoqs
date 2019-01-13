@@ -1,4 +1,4 @@
-package com.tigis.geoqs.constant;
+package com.tigis.geoqs.common.constant.factory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,10 +7,9 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.tigis.geoqs.common.constant.factory.IConstantFactory;
 import com.tigis.geoqs.common.constant.state.ManagerStatus;
 import com.tigis.geoqs.common.constant.state.MenuStatus;
-import com.tigis.geoqs.log.LogObjectHolder;
+import com.tigis.geoqs.common.log.LogObjectHolder;
 import com.tigis.geoqs.sys.dao.DeptMapper;
 import com.tigis.geoqs.sys.dao.DictMapper;
 import com.tigis.geoqs.sys.dao.MenuMapper;

@@ -7,6 +7,9 @@
         <dependent-module archiveName="geoqs-sys-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/geoqs-sys/geoqs-sys">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="geoqs-core-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/geoqs-core/geoqs-core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="geoqs"/>
         <property name="java-output-path" value="/geoqs/target/classes"/>
     </wb-module>

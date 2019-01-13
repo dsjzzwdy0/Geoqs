@@ -26,8 +26,8 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tigis.geoqs.common.constant.factory.ConstantFactory;
 import com.tigis.geoqs.common.constant.state.ManagerStatus;
-import com.tigis.geoqs.constant.ConstantFactory;
 import com.tigis.geoqs.security.ShiroUser;
 import com.tigis.geoqs.security.service.UserAuthService;
 import com.tigis.geoqs.sys.dao.MenuMapper;

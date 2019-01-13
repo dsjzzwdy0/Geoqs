@@ -23,7 +23,7 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 
 import com.tigis.geoqs.common.constant.Const;
-import com.tigis.geoqs.constant.ConstantFactory;
+import com.tigis.geoqs.common.constant.factory.ConstantFactory;
 import com.tigis.geoqs.util.ToolUtil;
 
 import java.util.List;
