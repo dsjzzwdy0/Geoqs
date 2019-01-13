@@ -24,12 +24,13 @@
 		<spring.version>4.3.9.RELEASE</spring.version>
 		<tiles.version>3.0.8</tiles.version>
 		<stylefeng.version>1.0.0</stylefeng.version>
-		<javax.servlet.version>2.5</javax.servlet.version>
+		<servlet.version>3.1.0</servlet.version>
 		<validator.version>6.0.2.Final</validator.version>
 		<slf4j.version>1.7.25</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
 		<mybatisplus.version>3.0.7.1</mybatisplus.version>
 		<hutool.version>4.1.2</hutool.version>
+		<dbcp.version>1.4</dbcp.version>
 	</properties>
 
 	<dependencyManagement>
@@ -182,12 +183,12 @@
 				<version>${mysql.version}</version>
 			</dependency>
 
-			<!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
+			<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
 			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>servlet-api</artifactId>
-				<version>2.5</version>
-				<scope>provided</scope>
+			    <groupId>javax.servlet</groupId>
+			    <artifactId>javax.servlet-api</artifactId>
+			    <version>${servlet.version}</version>
+			    <scope>provided</scope>
 			</dependency>
 			
 			<!-- https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/jstl -->
@@ -274,8 +275,15 @@
 			<dependency>
 				<groupId>commons-dbcp</groupId>
 				<artifactId>commons-dbcp</artifactId>
-				<version>1.2.2</version>
+				<version>${dbcp.version}</version>
 			</dependency>
+			
+			<!-- https://mvnrepository.com/artifact/commons-pool/commons-pool -->
+			<dependency>
+			    <groupId>commons-pool</groupId>
+			    <artifactId>commons-pool</artifactId>
+			    <version>${dbcp.version}</version>
+			</dependency>			
 			
 			<!-- https://mvnrepository.com/artifact/cn.hutool/hutool-core -->
 			<dependency>

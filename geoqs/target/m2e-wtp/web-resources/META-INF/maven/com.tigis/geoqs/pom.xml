@@ -106,10 +106,10 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
+			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
@@ -162,6 +162,12 @@
 			<artifactId>commons-dbcp</artifactId>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/commons-pool/commons-pool -->
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+		</dependency>
+
 		<!--swagger -->
 		<dependency>
 			<groupId>io.springfox</groupId>
@@ -178,9 +184,10 @@
 			<artifactId>jjwt</artifactId>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
+			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
@@ -226,16 +233,16 @@
 
 		<!-- https://mvnrepository.com/artifact/org.apache.taglibs/taglibs-standard-jstlel -->
 		<dependency>
-		    <groupId>org.apache.taglibs</groupId>
-		    <artifactId>taglibs-standard-jstlel</artifactId>
+			<groupId>org.apache.taglibs</groupId>
+			<artifactId>taglibs-standard-jstlel</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.tigis</groupId>
 			<artifactId>geoqs-sys</artifactId>
 			<version>${geoqs.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.tigis</groupId>
 			<artifactId>geoqs-core</artifactId>

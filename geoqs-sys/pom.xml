@@ -58,7 +58,7 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 		</dependency>
-		
+
 		<!--shiro依赖和缓存 -->
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
@@ -101,7 +101,7 @@
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus-core</artifactId>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/log4j/log4j -->
 		<dependency>
 			<groupId>log4j</groupId>
@@ -114,10 +114,10 @@
 			<artifactId>validation-api</artifactId>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
+			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
@@ -126,7 +126,7 @@
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-core</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.tigis</groupId>
 			<artifactId>geoqs-core</artifactId>

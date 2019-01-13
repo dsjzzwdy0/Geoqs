@@ -38,6 +38,12 @@ public class PageInfoWrapper<T> {
         this.rows = page.getRecords();
         this.total = page.getTotal();
     }
+    
+    public PageInfoWrapper(List<T> page)
+    {
+    	this.rows = page;
+    	this.total = page.size();
+    }
 
     public List<T> getRows() {
         return rows;
