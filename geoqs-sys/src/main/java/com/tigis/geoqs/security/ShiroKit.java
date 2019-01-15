@@ -24,6 +24,7 @@ import org.apache.shiro.util.ByteSource;
 
 import com.tigis.geoqs.common.constant.Const;
 import com.tigis.geoqs.common.constant.factory.ConstantFactory;
+import com.tigis.geoqs.sys.model.User;
 import com.tigis.geoqs.util.ToolUtil;
 
 import java.util.List;
@@ -285,17 +286,6 @@ public class ShiroKit
 	}
 
 	/**
-	 * 获取当前用户的部门数据范围的集合
-	 */
-	public static List<Integer> getDeptDataScope()
-	{
-		Integer deptId = getUser().getDeptId();
-		List<Integer> subDeptIds = ConstantFactory.me().getSubDeptId(deptId);
-		subDeptIds.add(deptId);
-		return subDeptIds;
-	}
-
-	/**
 	 * 判断当前用户是否是超级管理员
 	 */
 	public static boolean isAdmin()
@@ -312,4 +302,24 @@ public class ShiroKit
 		return false;
 	}
 
+	 /**
+     * 获取当前用户的部门数据范围的集合
+     */
+    public static List<Integer> getDeptDataScope() {
+        /*Integer deptId = getUser().getDeptId();
+        List<Integer> subDeptIds = ConstantFactory.me().getSubDeptId(deptId);
+        subDeptIds.add(deptId);
+        return subDeptIds;*/
+        return getDeptDataScope(null);
+    }
+
+    /**
+     * 获取当前用户的部门数据范围的集合
+     */
+    public static List<Integer> getDeptDataScope(User user) {
+        Integer deptId = user == null ? getUser().getDeptId() : user.getDeptid();
+        List<Integer> subDeptIds = ConstantFactory.me().getSubDeptId(deptId);
+        subDeptIds.add(deptId);
+        return subDeptIds;
+    }
 }

@@ -22,17 +22,17 @@ public abstract class BaseControllerWarpper {
         if (this.obj instanceof List) {
             List<Map<String, Object>> list = (List<Map<String, Object>>) this.obj;
             for (Map<String, Object> map : list) {
-                warpTheMap(map);
+                wrapTheMap(map);
             }
             return list;
         } else if (this.obj instanceof Map) {
             Map<String, Object> map = (Map<String, Object>) this.obj;
-            warpTheMap(map);
+            wrapTheMap(map);
             return map;
         } else {
             return this.obj;
         }
     }
 
-    protected abstract void warpTheMap(Map<String, Object> map);
+    protected abstract void wrapTheMap(Map<String, Object> map);
 }

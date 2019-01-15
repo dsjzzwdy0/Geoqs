@@ -17,9 +17,6 @@ package com.tigis.geoqs.common.annotation;
 
 import java.lang.annotation.*;
 
-import com.tigis.geoqs.common.constant.dictmap.base.AbstractDictMap;
-import com.tigis.geoqs.common.constant.dictmap.base.SystemDict;
-
 /**
  * 标记需要做业务日志的方法
  *
@@ -44,5 +41,5 @@ public @interface BussinessLog {
     /**
      * 字典(用于查找key的中文名称和字段的中文名称)
      */
-    Class<? extends AbstractDictMap> dict() default SystemDict.class;
+    String dict() default "SystemDict";
 }
