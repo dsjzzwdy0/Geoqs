@@ -1,4 +1,4 @@
-package com.tigis.geoqs.common.wrapper;
+package com.tigis.geoqs.wrapper;
 
 import java.util.List;
 import java.util.Map;

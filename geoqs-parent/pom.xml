@@ -31,6 +31,7 @@
 		<mybatisplus.version>3.0.7.1</mybatisplus.version>
 		<hutool.version>4.1.2</hutool.version>
 		<dbcp.version>1.4</dbcp.version>
+		<ehcache.version>2.6.11</ehcache.version>
 	</properties>
 
 	<dependencyManagement>
@@ -138,6 +139,14 @@
 				<artifactId>freemarker</artifactId>
 				<version>2.3.23</version>
 			</dependency>
+			
+			<!-- https://mvnrepository.com/artifact/javax.servlet.jsp/jsp-api -->
+			<dependency>
+			    <groupId>javax.servlet.jsp</groupId>
+			    <artifactId>jsp-api</artifactId>
+			    <version>2.2</version>
+			    <scope>provided</scope>
+			</dependency>			
 
 			<!-- 上传组件包 -->
 			<dependency>
@@ -303,7 +312,15 @@
 				<artifactId>springfox-swagger-ui</artifactId>
 				<version>${swagger.version}</version>
 			</dependency>
-
+			
+			<!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
+			<dependency>
+			    <groupId>net.sf.ehcache</groupId>
+			    <artifactId>ehcache</artifactId>
+			    <version>${ehcache.version}</version>
+			    <type>pom</type>
+			</dependency>
+			
 			<!--jwt token -->
 			<dependency>
 				<groupId>io.jsonwebtoken</groupId>
@@ -318,6 +335,13 @@
 			    <version>${stylefeng.version}</version>
 			</dependency>
 			
+			<!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper -->
+			<dependency>
+			    <groupId>com.github.pagehelper</groupId>
+			    <artifactId>pagehelper</artifactId>
+			    <version>5.1.7</version>
+			</dependency>
+						
 		</dependencies>
 	</dependencyManagement>
 

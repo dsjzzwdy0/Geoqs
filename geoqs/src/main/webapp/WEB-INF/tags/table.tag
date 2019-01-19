@@ -1,8 +1,7 @@
-@/*
-    表格标签的参数说明:
+<%@ tag language="java" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ attribute name="id" required="false"%>
 
-    id : table表格的id
-@*/
 <table id="${id}" data-mobile-responsive="true" data-click-to-select="true">
     <thead>
         <tr>

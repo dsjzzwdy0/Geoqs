@@ -1,9 +1,9 @@
-@/*
-    选择查询条件标签的参数说明:
+<%@ tag language="java" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ attribute name="id" required="false"%>
+<%@ attribute name="name" required="false"%>
+<%@ attribute name="tagBody" required="false"%>
 
-    name : 查询条件的名称
-    id : 查询内容的input框id
-@*/
 <div class="input-group">
     <div class="input-group-btn">
         <button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button">
@@ -11,6 +11,6 @@
         </button>
     </div>
     <select class="form-control" id="${id}">
-        ${tagBody!}
+        ${tagBody}
     </select>
 </div>

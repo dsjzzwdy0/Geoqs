@@ -314,4 +314,21 @@ public class ToolUtil extends ValidateUtil {
         return DateUtil.formatDateTime(new Date());
     }
 
+    /**
+     * 去掉指定后缀
+     *
+     * @param str    字符串
+     * @param suffix 后缀
+     * @return 切掉后的字符串，若后缀不是 suffix， 返回原字符串
+     */
+    public static String removeSuffix(String str, String suffix) {
+        if (isEmpty(str) || isEmpty(suffix)) {
+            return str;
+        }
+
+        if (str.endsWith(suffix)) {
+            return str.substring(0, str.length() - suffix.length());
+        }
+        return str;
+    }
 }

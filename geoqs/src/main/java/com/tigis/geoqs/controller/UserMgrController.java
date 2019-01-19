@@ -46,9 +46,6 @@ import java.util.UUID;
 @RequestMapping("/mgr")
 public class UserMgrController extends BaseController
 {
-
-	private static String PREFIX = "/system/user/";
-
 	@Resource
 	private GeoqsProperties gunsProperties;
 
@@ -61,7 +58,7 @@ public class UserMgrController extends BaseController
 	@RequestMapping("")
 	public String index()
 	{
-		return PREFIX + "user";
+		return "user.system";
 	}
 
 	/**
@@ -70,7 +67,7 @@ public class UserMgrController extends BaseController
 	@RequestMapping("/user_add")
 	public String addView()
 	{
-		return PREFIX + "user_add.html";
+		return "user_add.system";
 	}
 
 	/**
@@ -84,10 +81,11 @@ public class UserMgrController extends BaseController
 		{
 			throw new BussinessException(BizExceptionEnum.REQUEST_NULL);
 		}
+		
 		User user = userMapper.selectById(userId);
 		model.addAttribute("userId", userId);
 		model.addAttribute("userAccount", user.getAccount());
-		return PREFIX + "user_roleassign.html";
+		return "user_roleassign.system";
 	}
 
 	/**
@@ -107,7 +105,7 @@ public class UserMgrController extends BaseController
 		model.addAttribute("roleName", ConstantFactory.me().getRoleName(user.getRoleid()));
 		model.addAttribute("deptName", ConstantFactory.me().getDeptName(user.getDeptid()));
 		LogObjectHolder.me().set(user);
-		return PREFIX + "user_edit.html";
+		return "user_edit.system";
 	}
 
 	/**
@@ -126,7 +124,7 @@ public class UserMgrController extends BaseController
 		model.addAttribute("roleName", ConstantFactory.me().getRoleName(user.getRoleid()));
 		model.addAttribute("deptName", ConstantFactory.me().getDeptName(user.getDeptid()));
 		LogObjectHolder.me().set(user);
-		return PREFIX + "user_view.html";
+		return "user_view.system";
 	}
 
 	/**
@@ -135,7 +133,7 @@ public class UserMgrController extends BaseController
 	@RequestMapping("/user_chpwd")
 	public String chPwd()
 	{
-		return PREFIX + "user_chpwd.html";
+		return "user_chpwd.system";
 	}
 
 	/**

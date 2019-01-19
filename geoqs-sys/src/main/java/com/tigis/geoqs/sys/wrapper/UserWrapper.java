@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.tigis.geoqs.common.constant.factory.ConstantFactory;
-import com.tigis.geoqs.common.wrapper.BaseControllerWarpper;
+import com.tigis.geoqs.wrapper.BaseControllerWarpper;
 
 /**
  * 用户管理的包装类

@@ -12,9 +12,9 @@ import com.tigis.geoqs.common.exception.ServiceException;
 import com.tigis.geoqs.common.exception.enums.CoreExceptionEnum;
 import com.tigis.geoqs.common.page.PageInfoWrapper;
 import com.tigis.geoqs.common.page.PageReq;
-import com.tigis.geoqs.common.wrapper.BaseControllerWarpper;
 import com.tigis.geoqs.core.support.HttpKit;
 import com.tigis.geoqs.util.ToolUtil;
+import com.tigis.geoqs.wrapper.BaseControllerWarpper;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

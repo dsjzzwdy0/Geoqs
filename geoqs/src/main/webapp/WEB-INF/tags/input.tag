@@ -1,51 +1,61 @@
-@/*
-    表单中input框标签中各个参数的说明:
+<%@ tag language="java" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ attribute name="id" required="false"%>
+<%@ attribute name="name" required="false"%>
+<%@ attribute name="value" required="false"%>
+<%@ attribute name="type" required="false"%>
+<%@ attribute name="hidden" required="false"%>
+<%@ attribute name="hiddenValue" required="false"%>
+<%@ attribute name="readonly" required="false"%>
+<%@ attribute name="clickFun" required="false"%>
+<%@ attribute name="style" required="false"%>
+<%@ attribute name="selectId" required="false"%>
+<%@ attribute name="selectFlag" required="false"%>
+<%@ attribute name="selectStyle" required="false"%>
+<%@ attribute name="selectTreeId" required="false"%>
+<%@ attribute name="underline" required="false"%>
+<%@ attribute name="disabled" required="false"%>
 
-    hidden : input hidden框的id
-    id : input框id
-    name : input框名称
-    readonly : readonly属性
-    clickFun : 点击事件的方法名
-    style : 附加的css属性
-@*/
+
 <div class="form-group">
     <label class="col-sm-3 control-label">${name}</label>
     <div class="col-sm-9">
         <input class="form-control" id="${id}" name="${id}"
-               @if(isNotEmpty(value)){
-                    value="${tool.dateType(value)}"
-               @}
-               @if(isNotEmpty(type)){
+               <c:if test="${value != null && value != ''}">
+                    value="${value}"
+               </c:if>
+               <c:if test="${type != null && type != ''}">
                     type="${type}"
-               @}else{
+               </c:if>
+               <c:if test="${type == null || type == '' }">
                     type="text"
-               @}
-               @if(isNotEmpty(readonly)){
+               </c:if>
+               <c:if test="${readonly != null && readonly != ''}">
                     readonly="${readonly}"
-               @}
-               @if(isNotEmpty(clickFun)){
+               </c:if>
+               <c:if test="${clickFun != null && clickFun != ''}">
                     onclick="${clickFun}"
-               @}
-               @if(isNotEmpty(style)){
+               </c:if>
+               <c:if test="${style != null && style != ''}">
                     style="${style}"
-               @}
-               @if(isNotEmpty(disabled)){
+               </c:if>
+               <c:if test="${disabled != null && disabled != ''}">
                     disabled="${disabled}"
-               @}
+               </c:if>
         >
-        @if(isNotEmpty(hidden)){
-            <input class="form-control" type="hidden" id="${hidden}" value="${hiddenValue!}">
-        @}
+        <c:if test="${hidden != null && hidden != ''}">
+            <input class="form-control" type="hidden" id="${hidden}" value="${hiddenValue}">
+        </c:if>
 
-        @if(isNotEmpty(selectFlag)){
+        <c:if test="${selectFlag != null && selectFlag != ''}">
             <div id="${selectId}" style="display: none; position: absolute; z-index: 200;">
-                <ul id="${selectTreeId}" class="ztree tree-box" style="${selectStyle!}"></ul>
+                <ul id="${selectTreeId}" class="ztree tree-box" style="${selectStyle}"></ul>
             </div>
-        @}
+        </c:if>
     </div>
 </div>
-@if(isNotEmpty(underline) && underline == 'true'){
+<c:if test="${underline != null && underline == 'true'} ">
     <div class="hr-line-dashed"></div>
-@}
+</c:if>
 
 
