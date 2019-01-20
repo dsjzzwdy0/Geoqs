@@ -47,6 +47,11 @@ public class ConfigListener implements ServletContextListener
 	public void contextInitialized(ServletContextEvent evt)
 	{
 		ServletContext sc = evt.getServletContext();
+		
+		/*
+		System.out.println("Start ConfigListener...");
+		System.out.println("realPath: " + sc.getRealPath("/"));
+		System.out.println("contextPath: " + sc.getContextPath());*/
 
 		// 项目发布,当前运行环境的绝对路径
 		conf.put("realPath", sc.getRealPath("/").replaceFirst("/", ""));
