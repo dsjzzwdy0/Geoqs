@@ -6,7 +6,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.tigis.geoqs.GeoqsProperties;
 import com.tigis.geoqs.common.annotation.BussinessLog;
 import com.tigis.geoqs.common.annotation.Permission;
 import com.tigis.geoqs.common.constant.Const;
@@ -20,6 +19,7 @@ import com.tigis.geoqs.common.log.LogObjectHolder;
 import com.tigis.geoqs.core.DataScope;
 import com.tigis.geoqs.security.ShiroKit;
 import com.tigis.geoqs.security.ShiroUser;
+import com.tigis.geoqs.sys.GeoqsProperties;
 import com.tigis.geoqs.sys.dao.UserMapper;
 import com.tigis.geoqs.sys.factory.UserFactory;
 import com.tigis.geoqs.sys.model.User;

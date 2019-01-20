@@ -133,6 +133,12 @@
 			<version>${geoqs.version}</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

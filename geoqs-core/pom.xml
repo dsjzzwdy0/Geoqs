@@ -94,7 +94,7 @@
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-core</artifactId>
 		</dependency>
-
+		
 		<!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>

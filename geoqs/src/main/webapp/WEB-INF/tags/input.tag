@@ -1,5 +1,6 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ tag import="com.tigis.geoqs.util.ToolUtil" %>
 <%@ attribute name="id" required="false"%>
 <%@ attribute name="name" required="false"%>
 <%@ attribute name="value" required="false"%>
@@ -22,7 +23,7 @@
     <div class="col-sm-9">
         <input class="form-control" id="${id}" name="${id}"
                <c:if test="${value != null && value != ''}">
-                    value="${value}"
+                    value="${ToolUtil.dateType(value)}"
                </c:if>
                <c:if test="${type != null && type != ''}">
                     type="${type}"

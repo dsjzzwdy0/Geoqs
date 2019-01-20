@@ -8,6 +8,22 @@
 	
 	<display-name>Archetype Created Web Application</display-name>
 
+	<error-page>
+	    <error-code>404</error-code>
+	    <location>/global/error</location>
+	</error-page>
+
+	<error-page>
+	    <exception-type>java.lang.Exception</exception-type>
+	    <location>/global/error</location>
+	</error-page>
+
+	<error-page>
+	      <exception-type>java.lang.NullException</exception-type>
+	      <location>/global/error</location>
+	</error-page> 
+
+
 	<!-- 编码过滤器 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
@@ -52,8 +68,12 @@
 	<!-- Spring和mybatis的配置文件 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:spring-*.xml</param-value>
+		<param-value>classpath:spring-mybatis.xml, classpath:spring-shiro.xml</param-value>
 	</context-param>
+	
+	<listener>
+		<listener-class>com.tigis.geoqs.listener.ConfigListener</listener-class>
+	</listener>
 	
 	<!-- 防止Spring内存溢出监听器 -->
 	<listener>

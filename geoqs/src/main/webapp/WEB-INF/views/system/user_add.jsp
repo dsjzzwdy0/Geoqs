@@ -1,4 +1,10 @@
-@layout("/common/_container.html"){
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.tigis.geoqs.security.ShiroKit" %>
+<%@ page import="com.tigis.geoqs.util.ToolUtil" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fns" tagdir="/WEB-INF/tags" %>
+<c:set var="ctxPath" value="${pageContext.request.contextPath}"/>
+
 <div class="ibox float-e-margins">
 	<div class="ibox-content">
 		<div class="form-horizontal" id="userInfoForm">
@@ -7,33 +13,26 @@
 
 			<div class="row">
 				<div class="col-sm-6 b-r">
-					<#input id="account" name="账户" underline="true"/>
-
-					<#select id="sex" name="性别" underline="true">
+					<fns:input id="account" name="账户" underline="true"/>
+					<fns:select id="sex" name="性别" underline="true">
 						<option value="1">男</option>
 						<option value="2">女</option>
-					</#select>
-
-					<#input id="password" name="密码" underline="true" type="password"/>
-
-					<#input id="roleid" name="角色" underline="true" disabled="disabled"/>
-
-					<#input id="email" name="邮箱" type="email"/>
+					</fns:select>
+					<fns:input id="password" name="密码" underline="true" type="password"/>
+					<fns:input id="roleid" name="角色" underline="true" disabled="disabled"/>
+					<fns:input id="email" name="邮箱" type="email"/>
 				</div>
 				<div class="col-sm-6">
 					<div id="driverInfoContent">
-						<#input id="name" name="姓名" underline="true"/>
-
-						<#input id="birthday" name="出生日期" underline="true" type="date"
+						<fns:input id="name" name="姓名" underline="true"/>
+						<fns:input id="birthday" name="出生日期" underline="true" type="date"
 								clickFun="laydate({istime: false, format: 'YYYY-MM-DD'})"/>
-
-						<#input id="rePassword" name="确认密码" type="password" underline="true"/>
-
-						<#input id="citySel" name="部门" underline="true" readonly="readonly" hidden="deptid"
+						<fns:input id="rePassword" name="确认密码" type="password" underline="true"/>
+						<fns:input id="citySel" name="部门" underline="true" readonly="readonly" hidden="deptid"
 								clickFun="UserInfoDlg.showDeptSelectTree(); return false;"
 								style="background-color: #ffffff !important;"/>
 
-						<#input id="phone" name="电话"/>
+						<fns:input id="phone" name="电话"/>
 					</div>
 				</div>
 			</div>
@@ -46,13 +45,12 @@
 
 			<div class="row btn-group-m-t">
 				<div class="col-sm-10">
-					<#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="UserInfoDlg.addSubmit()"/>
-					<#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="UserInfoDlg.close()"/>
+					<fns:button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="UserInfoDlg.addSubmit()"/>
+					<fns:button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="UserInfoDlg.close()"/>
 				</div>
 			</div>
 		</div>
 
 	</div>
 </div>
-<script src="${ctxPath}/static/modular/system/user/user_info.js"></script>
-@}
+<script src="${ctxPath}/content/modular/system/user/user_info.js"></script>

@@ -20,7 +20,7 @@ import com.tigis.geoqs.security.ShiroUser;
 import com.tigis.geoqs.sys.model.User;
 import com.tigis.geoqs.sys.service.MenuService;
 import com.tigis.geoqs.sys.service.UserService;
-import com.tigis.geoqs.util.KaptchaUtil;
+import com.tigis.geoqs.sys.util.KaptchaUtil;
 import com.tigis.geoqs.util.ToolUtil;
 
 import static com.tigis.geoqs.util.HttpContext.getIp;
@@ -73,7 +73,7 @@ public class LoginController extends BaseController
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login()
 	{
-		if (ShiroKit.isAuthenticated() || ShiroKit.getUser() != null)
+		if (ShiroKit.isAuthenticated() && ShiroKit.getUser() != null)
 		{
 			return REDIRECT + "/";
 		}

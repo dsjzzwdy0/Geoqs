@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
-import com.tigis.geoqs.GeoqsProperties;
+import com.tigis.geoqs.sys.GeoqsProperties;
 import com.tigis.geoqs.util.FileUtil;
 
 /**

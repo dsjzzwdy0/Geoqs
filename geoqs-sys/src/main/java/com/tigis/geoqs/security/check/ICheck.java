@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2020 stylefeng & fengshuonan (https://gitee.com/stylefeng)
+ * Copyright (c) 2015-2017, Chill Zhuang 庄骞 (smallchill@163.com).
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.tigis.geoqs.util;
+package com.tigis.geoqs.security.check;
 
-import com.tigis.geoqs.GeoqsProperties;
 
 /**
- * 验证码工具类
+ *  检查用接口
  */
-public class KaptchaUtil {
+public interface ICheck {
 
     /**
-     * 获取验证码开关
+     * 检查指定角色
+     * @param permissions
+     * @return boolean
      */
-    public static Boolean getKaptchaOnOff() {
-        return SpringContextHolder.getBean(GeoqsProperties.class).getKaptchaOpen();
-    }
+    boolean check(Object[] permissions);
+
+    /**
+     * 检查全体角色
+     * @return boolean
+     */
+    boolean checkAll();
 }

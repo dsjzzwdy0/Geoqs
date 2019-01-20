@@ -41,10 +41,8 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/menu")
-public class MenuController extends BaseController {
-
-    private static String PREFIX = "/system/menu/";
-
+public class MenuController extends BaseController 
+{
     @Resource
     MenuMapper menuMapper;
 
@@ -56,7 +54,7 @@ public class MenuController extends BaseController {
      */
     @RequestMapping("")
     public String index() {
-        return PREFIX + "menu.html";
+        return "menu.system";
     }
 
     /**
@@ -64,7 +62,7 @@ public class MenuController extends BaseController {
      */
     @RequestMapping(value = "/menu_add")
     public String menuAdd() {
-        return PREFIX + "menu_add.html";
+        return "menu_add.system";
     }
 
     /**
@@ -95,7 +93,7 @@ public class MenuController extends BaseController {
         menuMap.put("pcodeName", ConstantFactory.me().getMenuNameByCode(temp.getCode()));
         model.addAttribute("menu", menuMap);
         LogObjectHolder.me().set(menu);
-        return PREFIX + "menu_edit.html";
+        return "menu_edit.system";
     }
 
     /**
