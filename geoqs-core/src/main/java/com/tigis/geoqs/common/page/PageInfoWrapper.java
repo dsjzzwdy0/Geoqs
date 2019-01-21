@@ -33,16 +33,16 @@ public class PageInfoWrapper<T> {
 
     // 总数
     private long total;
+
+    public PageInfoWrapper(Page<T> page) {
+        this.rows = page.getRecords();
+        this.total = page.getTotal();
+    }
     
-    @SuppressWarnings("unchecked")
-	public PageInfoWrapper(List<T> page)
+    public PageInfoWrapper(List<T> page)
     {
     	this.rows = page;
-        if (page instanceof Page) {
-            this.total = ((Page<T>) page).getTotal();
-        } else {
-            this.total = page.size();
-        }
+    	this.total = page.size();
     }
 
     public List<T> getRows() {
