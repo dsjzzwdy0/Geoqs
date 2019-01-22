@@ -23,6 +23,7 @@
 				/login = anon
 				/logout = anon
 				/index = authc
+				/user/list = anon
 				/content/** = anon <!-- 不需要任何权限 -->
 				/user/login = anon <!--可以不需要登录-->
 				/user/readName = authc, perms[/readName]  <!-- perms 表示需要该权限才能访问的页面 -->
