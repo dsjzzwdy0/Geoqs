@@ -25,7 +25,7 @@ if (window.top !== window.self) {
 }
 </script>
 <div class="middle-box text-center loginscreen  animated fadeInDown">
-    <div style="padding: 100px 0px;">
+    <div style="padding: 10px 0px;">
         <div>
             <h1 class="logo-name">GS</h1>
         </div>
