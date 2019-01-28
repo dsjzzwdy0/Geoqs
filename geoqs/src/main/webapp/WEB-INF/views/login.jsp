@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"  import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="qs" uri="/WEB-INF/taglib/date.tld"%>
 <c:set var="ctxPath" value="${pageContext.request.contextPath}"/>
 
 <!DOCTYPE html>
@@ -28,7 +29,7 @@ if (window.top !== window.self) {
         <div>
             <h1 class="logo-name">GS</h1>
         </div>
-        <h3>欢迎使用 Guns</h3>
+        <h3>欢迎使用 Guns <qs:date/> </h3>
         <br/>
         <h4 style="color: red;">${tips}</h4>
         <form class="m-t" role="form" action="${ctxPath}/login" method="post">
