@@ -67,6 +67,7 @@
 		</property>
 	</bean>
 
+	<!--以下三种视图配置根据需要任选一种即可 -->
 	<!-- 配置视图解析器 -->
 	<bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
@@ -90,8 +91,6 @@
     	</property>
     </bean>
     
-    
-	<!--以下三种视图配置根据需要任选一种即可 -->
 	<!--配置Jsp视图解析器-->      
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">      
         <property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView" />  
