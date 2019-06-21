@@ -30,6 +30,8 @@ public class FaceInfo extends AutoIdEntity
 	private String userid;
 	private String name;
 	private byte[] facebytes;
+	private String format;
+	
 	public String getUserid()
 	{
 		return userid;
@@ -53,5 +55,13 @@ public class FaceInfo extends AutoIdEntity
 	public void setFacebytes(byte[] facebytes)
 	{
 		this.facebytes = facebytes;
+	}
+	public String getFormat()
+	{
+		return format;
+	}
+	public void setFormat(String format)
+	{
+		this.format = format;
 	}
 }

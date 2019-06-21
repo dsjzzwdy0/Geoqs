@@ -33,6 +33,10 @@ import org.opencv.imgproc.Imgproc;
  */
 public class ImageUtil
 {
+	public static final String FILE_IMAGE_EXT_JPG = "jpg";
+	public static final String FILE_IMAGE_EXT_PNG = "png";
+	public static final String FILE_IMAGE_EXT_BMP = "bmp";
+	
 	/**
 	 * 读取文件数据
 	 * @param imagePath
