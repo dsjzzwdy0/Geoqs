@@ -13,9 +13,7 @@
                         http://www.springframework.org/schema/cache
                         http://www.springframework.org/schema/cache/spring-cache-4.0.xsd
                         ">
-	<!-- 自动扫描 -->	
-	<context:component-scan base-package="com.tigis.geoqs" />
-	
+                        	
 	<!-- 基础数据所需的运行环境类 -->
 	<bean id="springContextHolder" class="com.tigis.geoqs.util.SpringContextHolder"/>
 	
@@ -56,11 +54,11 @@
 		<property name="mapperLocations">
 			<list>
 			    <value>classpath*:com/tigis/geoqs/**/dao/mapping/*Mapper.xml</value>
-				<value>classpath*:com/loris/stock/repository/mapper/conf/*Mapper.xml</value>
 			</list>
 		</property>
 		<property name="configLocation" value="classpath:mybatis-config.xml" />
-		<property name="typeAliasesPackage" value="com.tigis.geoqs.sys.dao,com.tigis.geoqs.sys.model" />
+		<property name="typeAliasesPackage" value="com.tigis.geoqs.sys.dao,
+			com.tigis.geoqs.sys.model, com.loris.geoqs.face.dao" />
 		<property name="plugins">
 			<array>
 				<!-- 分页插件配置 -->
@@ -83,7 +81,7 @@
 	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="
 		    com.tigis.geoqs.sys.dao,
-		    com.loris.stock.web.repository.mapper" />
+		    com.loris.geoqs.face.dao" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
 	</bean>
 
