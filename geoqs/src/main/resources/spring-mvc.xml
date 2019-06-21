@@ -17,6 +17,9 @@
 	<mvc:default-servlet-handler />
 	<mvc:annotation-driven />
 	
+	<!-- 自动扫描 -->	
+	<context:component-scan base-package="com.tigis.geoqs, com.loris.geoqs" />
+	
 	<!-- 启动SpringMVC的注解功能，完成请求和注解POJO的映射 -->
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">

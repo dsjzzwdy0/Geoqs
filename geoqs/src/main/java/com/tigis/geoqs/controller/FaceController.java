@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.opencv.core.Mat;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,6 +47,7 @@ public class FaceController
 	protected FaceToolbox faceToolbox;
 	
 	/** 人脸数据服务类 */
+	@Autowired
 	protected FaceInfoService faceInfoService;
 	
 	/** 人脸库数据 */
