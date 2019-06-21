@@ -33,6 +33,7 @@
 		<dbcp.version>1.4</dbcp.version>
 		<ehcache.version>2.6.11</ehcache.version>
 		<aspectj.version>1.9.2</aspectj.version>
+		<opencv.version>3.4.1-1.4.1</opencv.version>
 	</properties>
 
 	<dependencyManagement>
@@ -355,7 +356,13 @@
 			    <groupId>org.aspectj</groupId>
 			    <artifactId>aspectjweaver</artifactId>
 			    <version>${aspectj.version}</version>
-			</dependency>					
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.bytedeco.javacpp-presets/opencv -->
+			<dependency>
+				<groupId>org.bytedeco.javacpp-presets</groupId>
+				<artifactId>opencv</artifactId>
+				<version>${opencv.version}</version>
+			</dependency>				
 						
 		</dependencies>
 	</dependencyManagement>

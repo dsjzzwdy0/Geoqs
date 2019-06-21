@@ -254,6 +254,12 @@
 			<artifactId>geoqs-core</artifactId>
 			<version>${geoqs.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.tigis</groupId>
+			<artifactId>geoqs-face</artifactId>
+			<version>${geoqs.version}</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper -->
 		<dependency>
