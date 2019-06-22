@@ -64,10 +64,73 @@ public class FaceToolbox
 	/** The face height */
 	protected int height = -1;
 	
+	/** 已知的脸 */
+	protected KnowFaces knowFaces = new KnowFaces();
+	
+	/** 已知的脸 */
+	class KnowFaces
+	{
+		List<Mat> faces = new ArrayList<>();
+		List<Integer> labels = new ArrayList<>();
+		
+		public void addFace(int label, Mat face)
+		{
+			face = normalizeFace(face);
+			labels.add(label);
+			faces.add(face);
+			
+			//logger.info("Channels: " + face.channels() + ", Image Type: " + face.type());
+		}
+		
+		public void remove(int label)
+		{
+			int size = labels.size();
+			for(int i = size - 1; i >= 0; i --)
+			{
+				if(labels.get(i) == label)
+				{
+					labels.remove(i);
+					faces.remove(i);
+				}
+			}
+		}
+		
+		public Mat getLables()
+		{
+			int size = size();
+			final Mat ls = new Mat(size, 1, CvType.CV_32SC1);
+			for (int i = 0; i < size; i ++)
+			{
+				ls.put(i, 0, labels.get(i));
+			}
+			return ls;
+		}
+		
+		public void clear()
+		{
+			labels.clear();
+			faces.clear();
+		}
+		
+		public int size()
+		{
+			if(labels.size() != faces.size()) throw new IllegalArgumentException("The label size and face size is not equal.");
+			return labels.size();
+		}
+	}
+	
 	static
 	{
-		//加载本地动态链接库
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		try
+		{
+			// 加载本地动态链接库
+			System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		}
+		catch (UnsatisfiedLinkError ignore)
+		{
+			// 使用spring-dev-tools之后，上下文会被加载多次，所以这里会抛出链接库已被加载的异常。
+			// 有这个异常则说明链接库已被加载，直接吞掉异常即可
+		}
 	}
 	
 	public static class FaceResult
@@ -148,7 +211,7 @@ public class FaceToolbox
 			path = path.replaceFirst("test-classes/", "classes/");
 		}
 		String filePath = path + "face/" + xmlFaceFile;
-		logger.debug(filePath);
+		logger.info(filePath);
 		faceDetector = new CascadeClassifier(filePath);
 		
 		if(type == FaceRecognizerType.Eigen)
@@ -168,34 +231,68 @@ public class FaceToolbox
 	}
 	
 	/**
-	 * 训练数据模型
-	 * @param faces
+	 * 删除某一标签的人脸数据
+	 * @param label
 	 */
-	public void train(List<FaceInfo> faces)
+	public void removeFace(int label)
 	{
-		if(width <= 0 || height <= 0)
-		{
-			setDefaultRect();
-		}
-		train(faces, width, height);
+		knowFaces.remove(label);
+	}
+	
+	/**
+	 * 添加人脸列表信息
+	 * @param faceInfos
+	 */
+	public void addFaces(List<FaceInfo> faceInfos)
+	{
+		StreamSupport.stream(faceInfos.spliterator(), false).forEach(face -> {
+			addFace(face);
+		});
+	}
+	
+	/**
+	 * 添加人脸信息
+	 * @param faceinfo
+	 */
+	public void addFace(FaceInfo faceinfo)
+	{
+		Mat face = faceToMat(faceinfo);
+		int label = Integer.parseInt(faceinfo.getId());
+		
+        this.addFace(label, face);
+	}
+	
+	/**
+	 * 添加具有标签的人脸
+	 * @param label
+	 * @param face
+	 */
+	public void addFace(int label, Mat face)
+	{
+        knowFaces.addFace(label, face);
 	}
 	
 	/**
 	 * 训练数据模型
 	 * @param faces
-	 * @param width
-	 * @param height
 	 */
-	public void train(List<FaceInfo> faces, int width, int height)
+	public void train()
 	{
-		this.width = width;
-		this.height = height;
-		int size = faces.size();
-		final List<Mat> images = new ArrayList<>();
-        final Mat labels = new Mat(size, 1, CvType.CV_32SC1);
-        setImagesAndLabels(faces, images, labels, width, height);
-        
-		recognizer.train(images, labels);
+		if(knowFaces.size() <= 0)
+		{
+			logger.warn("There are no faces in the database.");
+			return;
+		}
+		recognizer.train(knowFaces.faces, knowFaces.getLables());
+	}
+	
+	/**
+	 * 训练数据模型
+	 * @param faceInfos
+	 */
+	public void train(List<FaceInfo> faceInfos)
+	{
+		update(faceInfos);
 	}
 	
 	/**
@@ -206,11 +303,9 @@ public class FaceToolbox
 	 */
 	public void update(List<FaceInfo> faces)
 	{
-		int size = faces.size();
-		final List<Mat> images = new ArrayList<>();
-        final Mat labels = new Mat(size, 1, CvType.CV_32SC1);
-        setImagesAndLabels(faces, images, labels, width, height);
-		recognizer.update(images, labels);
+		knowFaces.clear();
+		addFaces(faces);
+		train();
 	}
 	
 	/**
@@ -220,7 +315,6 @@ public class FaceToolbox
 	 * @param labels
 	 * @param width
 	 * @param height
-	 */
 	private void setImagesAndLabels(List<FaceInfo> faces, List<Mat> images, Mat labels, int width, int height)
 	{
 		StreamSupport.stream(faces.spliterator(), false).forEach(face -> {
@@ -233,9 +327,10 @@ public class FaceToolbox
             	img = ImageUtil.imageResize(img,  width, height);
             }            
             images.add(img);
-            labels.put(images.size(), 0, Integer.getInteger(face.getId())); 
+            logger.info("Face: " + face);
+            labels.put(images.size(), 0, Integer.parseInt(face.getId())); 
         });
-	}
+	}*/
 	
 	/**
 	 * 检测人脸并把人脸用框标识出来
@@ -289,6 +384,11 @@ public class FaceToolbox
 	 */
 	public Mat getSingleFaceImage(Mat image)
 	{
+		/*if(image.channels() > 1)
+        {
+			image = ImageUtil.rgb2Gray(image);
+        }*/
+		
 		MatOfRect rects = checkFaces(image);
 		if(rects == null || rects.empty() || rects.toArray().length > 1)
 		{
@@ -296,7 +396,7 @@ public class FaceToolbox
 			return null;
 		}
 		Rect rect = rects.toArray()[0];
-		logger.info("width: " + rect.width + ", height: " + rect.height);
+		//logger.info("width: " + rect.width + ", height: " + rect.height);
 		return ImageUtil.imageCut(image, rect.x, rect.y, rect.width, rect.height);
 	}
 	
@@ -312,8 +412,7 @@ public class FaceToolbox
 		{
 			return null;
 		}
-		dest = ImageUtil.rgb2Gray(dest);
-		dest = ImageUtil.imageResize(dest, width, height);
+		dest = normalizeFace(dest);
 		return dest;
 	}
 	
@@ -334,17 +433,8 @@ public class FaceToolbox
 			logger.warn("There are no face image to be set, please check the image data.");
 			return null;
 		}
-		if(face.type() == CvType.CV_8UC3 || face.channels() > 1)
-		{
-			face = ImageUtil.rgb2Gray(face);
-		}
-		Size rect = face.size();
-		//重新设置图像的宽与高
-        if(rect.width != width || rect.height != height)
-        {
-        	face = ImageUtil.imageResize(face, width, height);
-        }
-        
+
+		face = normalizeFace(face);        
         int labels[] = new int[1];
         double[] confidences = new double[1];        
         recognizer.predict(face, labels, confidences);
@@ -377,6 +467,28 @@ public class FaceToolbox
 		this.width = 64;
 		this.height = 64;
 	}
+	
+	/**
+	 * 标准化图像
+	 * @param face
+	 * @return
+	 */
+	protected Mat normalizeFace(Mat face)
+	{
+		//logger.info("Normalize the face object.");
+        if(face.channels() > 1)
+        {
+        	face = ImageUtil.rgb2Gray(face);
+        }
+		Size rect = face.size();
+		//重新设置图像的宽与高
+        if(rect.width != width || rect.height != height)
+        {
+        	face = ImageUtil.imageResize(face, width, height);
+        }
+        return face;
+	}
+	
 	
 	/**
      * Converts Blob to mat.

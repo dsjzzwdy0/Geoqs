@@ -14,7 +14,6 @@ package com.loris.geoqs.face.util;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 
-import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.Rect;
@@ -33,8 +32,8 @@ import org.opencv.imgproc.Imgproc;
  */
 public class ImageUtil
 {
-	public static final String FILE_IMAGE_EXT_JPG = "jpg";
-	public static final String FILE_IMAGE_EXT_PNG = "png";
+	public static final String FILE_IMAGE_EXT_JPG = ".jpg";
+	public static final String FILE_IMAGE_EXT_PNG = ".png";
 	public static final String FILE_IMAGE_EXT_BMP = "bmp";
 	
 	/**
@@ -54,13 +53,9 @@ public class ImageUtil
 	 */
 	public static Mat rgb2Gray(Mat image)
 	{
-		if(image.type() == CvType.CV_8UC3)
-		{
-			Mat dest = new Mat();
-			Imgproc.cvtColor(image, dest, Imgproc.COLOR_BGR2BGRA);
-			return dest;
-		}
-		return image;
+		Mat dest = new Mat();
+		Imgproc.cvtColor(image, dest, Imgproc.COLOR_BGR2GRAY);
+		return dest;
 	}
 	
 	/**

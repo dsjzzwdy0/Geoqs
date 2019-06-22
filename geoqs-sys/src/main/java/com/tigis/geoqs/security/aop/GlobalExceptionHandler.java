@@ -1,4 +1,4 @@
-package com.tigis.geoqs.sys.aop;
+package com.tigis.geoqs.security.aop;
 
 import org.apache.log4j.Logger;
 import org.apache.shiro.authc.AuthenticationException;

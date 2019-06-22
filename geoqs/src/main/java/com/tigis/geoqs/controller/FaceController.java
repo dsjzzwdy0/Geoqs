@@ -11,13 +11,22 @@
  */
 package com.tigis.geoqs.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.opencv.core.Mat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,7 +48,7 @@ import com.tigis.geoqs.wrapper.Rest;
  */
 @Controller
 @RequestMapping("/face")
-public class FaceController
+public class FaceController extends BaseController
 {
 	private static Logger logger = Logger.getLogger(FaceController.class);
 	
@@ -50,25 +59,90 @@ public class FaceController
 	@Autowired
 	protected FaceInfoService faceInfoService;
 	
-	/** 人脸库数据 */
-	protected List<FaceInfo> faceInfos;
+	
+	/** 判断是否初始化 */
+	protected boolean initialized = false;
 	
 	/**
-	 * 控制器的初始化
+	 * 浏览头像图片数据
+	 * @param id
+	 * @param response
+	 * @throws IOException
 	 */
-	public FaceController()
+	@RequestMapping(value = "/getpic", method = RequestMethod.GET)
+	public void getFacePic(String id, HttpServletResponse response) throws IOException
 	{
-		initFaceToolBox();
+		FaceInfo faceInfo = faceInfoService.getById(id);
+		if(faceInfo == null)
+		{
+			response.sendRedirect(getHttpServletRequest().getContextPath() + "/content/img/girl.gif");
+			return;
+		}
+		
+		response.setContentType(getMimeType(faceInfo.getFormat()));		
+		OutputStream os = response.getOutputStream();
+		os.write(faceInfo.getFacebytes());
+		os.close();
 	}
 	
 	@ResponseBody
-	@RequestMapping("/regist")
-	public Rest registUserFace(String userid, String name, MultipartFile file)
+	@RequestMapping("/recognize")
+	public Rest recognizeFace(@RequestParam("file") MultipartFile file)
 	{
+		if(!initialized)
+		{
+			initFaceToolBox();
+		}
+		
 		String info = "";
 		try
 		{
 			byte[] bytes = file.getBytes();
+			Mat image = ImageUtil.bytes2Mat(bytes);
+			if(image == null || image.empty())
+			{
+				info = "The file is not a validate image file.";
+				logger.warn(info);
+			}
+			else
+			{
+				//image = ImageUtil.rgb2Gray(image);
+				Mat face = faceToolbox.getSingleFaceImage(image);
+				if(face == null || face.empty())
+				{
+					info = "There are no face in the image file.";
+					logger.warn(info);
+				}
+				else
+				{
+					//logger.info("Channels: " + face.channels() + ", Image Type: " + face.type());
+					FaceToolbox.FaceResult result = faceToolbox.predictByFaceImage(face);
+					return Rest.okData(result);
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			info = e.toString();
+		}
+		return Rest.failure("Test");
+	}
+
+
+	@ResponseBody
+	@RequestMapping("/regist")
+	public Rest registUserFace(@RequestParam("file") MultipartFile file, String userid, String name)
+	{
+		if(!initialized)
+		{
+			initFaceToolBox();
+		}
+		String info = "";
+		try
+		{
+			byte[] bytes = file.getBytes();
+			//output("d:/test.jpg", bytes);
 			Mat image = ImageUtil.bytes2Mat(bytes);
 			if(image == null || image.empty())
 			{
@@ -93,7 +167,7 @@ public class FaceController
 					
 					if(faceInfoService.save(faceInfo))
 					{
-						faceInfos.add(faceInfo);
+						faceToolbox.addFace(faceInfo);
 						this.updateFaceToolBox();
 						return Rest.ok();
 					}
@@ -113,14 +187,35 @@ public class FaceController
 		return Rest.failure(info);
 	}
 	
+	//Only for test.
+	protected void output(String path, byte[] bytes)
+	{
+		try
+		{
+			FileOutputStream outputStream = new FileOutputStream(new File(path));
+			outputStream.write(bytes);
+			outputStream.flush();
+			outputStream.close();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * 初始化人脸检测工具
 	 */
 	protected void initFaceToolBox()
 	{
+		if(initialized)
+		{
+			return;
+		}
+		
 		try
 		{
 			faceToolbox = FaceToolbox.create(null, FaceRecognizerType.Eigen);
+			initialized = true;
 		}
 		catch(Exception e)
 		{
@@ -128,8 +223,8 @@ public class FaceController
 			logger.warn("Error occured when initialize the FaceToolBox.");
 		}
 		
-		faceInfos = faceInfoService.list();
-		if(faceInfos == null || faceInfos.isEmpty())
+		List<FaceInfo> faceInfos = faceInfoService.list();
+		if(faceInfos == null || faceInfos.isEmpty() || faceInfos.size() == 0)
 		{
 			logger.warn("The faces data is empty.");
 			return;
@@ -139,10 +234,25 @@ public class FaceController
 	}
 	
 	/**
+	 * 设置图像的格式
+	 * @param format
+	 * @return
+	 */
+	protected String getMimeType(String format)
+	{
+		String t = format.replace(".", "");
+		if(StringUtils.isEmpty(t))
+		{
+			t = "jpeg";
+		}
+		return String.format("image/%s", t);
+	}
+	
+	/**
 	 * 更新人脸识别工具
 	 */
 	protected void updateFaceToolBox()
 	{
-		faceToolbox.update(faceInfos);
+		faceToolbox.train();
 	}
 }

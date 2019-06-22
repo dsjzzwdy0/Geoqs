@@ -64,4 +64,14 @@ public class FaceInfo extends AutoIdEntity
 	{
 		this.format = format;
 	}
+	/**
+	 *  (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString()
+	{
+		return "FaceInfo [userid=" + userid + ", name=" + name
+				+ ", format=" + format + ", id=" + id + "]";
+	}
 }
