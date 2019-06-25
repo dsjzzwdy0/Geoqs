@@ -1,0 +1,91 @@
+@layout("/layout/_containerList.html"){
+<style>
+body {
+	margin-left: 5px;
+}
+</style>
+<div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
+	<div class="ui-layout-center">
+		<div class="center-Panel">
+			<div class="panel-Title">人员管理</div>
+			<div class="titlePanel layui-form">
+				<div class="title-search">
+					<div class="layui-inline">
+						<label style="margin: 2px;">用户名称：</label>
+						<div class="layui-input-inline" style="width: 150px;">
+							<input type="text" id="txt_Keyword" placeholder="请输入账号或姓名"
+								autocomplete="off" class="layui-input">
+						</div>
+						<div class="layui-input-inline" style="width: 150px;">
+							<select id="deptId" lay-search>
+								<option value="">请选择所属单位</option> 
+								@for(item in units!){
+								<option value="${item.id}">${item.fullname}</option>
+								@}
+							</select>
+						</div>
+						<div class="layui-input-inline" style="width: 150px;">
+							<select id="personType" lay-search>
+								<option value="">请选择人员角色</option> 
+								@for(item in personTypes!){
+								<option value="${item.code}">${item.name}</option>
+								@}
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline">
+						<a id="btn_Search" class="layui-btn layui-btn-normal"><i
+							class="fa fa-search"></i> 搜索</a>
+					</div>
+				</div>
+				<div class="toolbar">
+					<div class="layui-btn-group">
+						<a class="layui-btn layui-btn-primary layui-btn-sm" onclick="reload();"><i
+							class="fa fa-refresh"></i>&nbsp;刷新</a>
+						@if(shiro.hasPermission("/mgr/add")){ 
+						<a class="layui-btn layui-btn-primary layui-btn-sm" onclick="User.openAddMgr()"><i
+							class="fa fa-plus"></i> 添加</a> 
+						@}
+						@if(shiro.hasPermission("/mgr/edit")){ 
+						<a class="layui-btn layui-btn-primary layui-btn-sm"
+							onclick="User.openChangeUser()"><i class="fa fa-edit"></i> 修改</a>
+						@} 
+						@if(shiro.hasPermission("/mgr/delete")){ 
+						<a class="layui-btn layui-btn-primary layui-btn-sm" onclick="User.delMgrUser()"><i
+							class="fa fa-remove"></i> 删除</a>
+						@}
+						
+						<a class="layui-btn layui-btn-primary layui-btn-sm" onclick="Dept.check()"><i
+							class="fa fa-edit"></i> 审核</a> 
+						
+						@if(shiro.hasPermission("/mgr/reset")){ 
+						<a class="layui-btn layui-btn-primary layui-btn-sm" onclick="User.resetPwd()"><i
+							class="fa fa-key"></i> 重置密码</a> 
+						@}
+						@if(shiro.hasPermission("/mgr/freeze")){ 
+						<a class="layui-btn layui-btn-primary layui-btn-sm"
+							onclick="User.freezeAccount()"><i class="fa fa-warning"></i>
+							冻结</a> 
+						@} 
+						@if(shiro.hasPermission("/mgr/unfreeze")){ 
+						<a class="layui-btn layui-btn-primary layui-btn-sm" onclick="User.unfreeze()"><i
+							class="fa fa-check-circle"></i> 解除冻结</a> 
+						@}
+						@if(shiro.hasPermission("/mgr/setRole")){ 
+						<a class="layui-btn layui-btn-primary layui-btn-sm" onclick="User.roleAssign()"><i
+							class="fa fa-user-secret"></i> 角色分配</a> 
+						@}
+					</div>
+				</div>
+			</div>
+			<div class="gridPanel">
+				<table id="gridTable"></table>
+				<div id="gridPager"></div>
+			</div>
+		</div>
+	</div>
+</div>
+@}
+<script src="${ctxPath}/static/plugins/layout/jquery.layout.js"></script>
+<script src="${ctxPath}/static/js/system/user.js"></script>
+<script src="${ctxPath}/static/js/tigis-form.js"></script>

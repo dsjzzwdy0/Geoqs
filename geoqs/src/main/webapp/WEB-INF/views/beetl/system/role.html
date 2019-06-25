@@ -1,0 +1,59 @@
+@layout("/layout/_containerList.html"){
+
+<style>
+        body {
+            margin-left: 5px;
+        }
+ </style>
+ <link href="${ctxPath}/static/plugins/jqgrid/jqgrid.css" rel="stylesheet"/>
+<div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
+	<div class="ui-layout-center">
+	    <div class="center-Panel">
+	    	<div class="panel-Title">
+				角色管理
+			</div>
+			<div class="titlePanel layui-form">
+				<div class="title-search">
+					<div class="layui-inline">
+						<label style="margin:2px;">角色名称：</label>
+						<div class="layui-input-inline">
+							<input type="text" id="txt_Keyword"
+								placeholder="请输入角色名称" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<a id="btn_Search" class="layui-btn layui-btn-normal"><i
+							class="fa fa-search"></i> 搜索</a>
+					</div>
+				</div>
+				<div class="toolbar">
+					<div class="layui-btn-group">
+						<a class="layui-btn layui-btn-primary" onclick="reload();"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
+						@if(shiro.hasPermission("/role/add")){ 
+						<a class="layui-btn layui-btn-primary" onclick="Role.openAddRole()"><i class="fa fa-plus"></i> 添加</a>
+						@}
+						@if(shiro.hasPermission("/role/edit")){ 
+						<a class="layui-btn layui-btn-primary" onclick="Role.openChangeRole()"><i class="fa fa-edit"></i>
+							修改</a> 
+						@}
+						@if(shiro.hasPermission("/role/remove")){ 
+						<a class="layui-btn layui-btn-primary" onclick="Role.delRole()"><i class="fa fa-remove"></i>
+							删除</a>
+						@}
+						@if(shiro.hasPermission("/role/setAuthority")){ 
+						<a class="layui-btn layui-btn-primary" onclick="Role.assign()"><i class="fa fa-key"></i>
+							权限配置</a>
+						@}
+					</div>
+				</div>
+			</div>
+			<div class="gridPanel">
+                <table id="gridTable"></table>
+                <div id="gridPager"></div>
+            </div>
+	    </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/plugins/layout/jquery.layout.js"></script>
+<script src="${ctxPath}/static/js/system/role.js"></script>
+@}

@@ -1,0 +1,58 @@
+@layout("/layout/_containerList.html"){
+ <link href="${ctxPath}/static/plugins/jqgrid/jqgrid.css" rel="stylesheet"/>
+ <link href="${ctxPath}/static/plugins/tree/tree.css" rel="stylesheet"/>
+<div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
+	<div class="ui-layout-west">
+        <div class="west-Panel">
+            <div class="panel-Title">菜单目录</div>
+            <div id="itemTree"></div>
+        </div>
+    </div>
+	<div class="ui-layout-center">
+	    <div class="center-Panel">
+	    	<div class="panel-Title">
+				菜单信息
+			</div>
+			<div class="titlePanel">
+				<div class="title-search">
+					<div class="layui-inline">
+					<label style="margin:2px;">菜单名称：</label>
+					<div class="layui-input-inline">
+						<input type="text" id="txt_Keyword"
+							placeholder="请输入菜单名称或编号" autocomplete="off" class="layui-input">
+					</div>
+					</div>
+					<div class="layui-inline">
+						<a id="btn_Search" class="layui-btn layui-btn-normal"><i
+							class="fa fa-search"></i> 搜索</a>
+					</div>
+				</div>
+				<div class="toolbar">
+					<div class="layui-btn-group">
+						<a class="layui-btn layui-btn-primary" onclick="reload();"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
+						@if(shiro.hasPermission("/menu/add")){ 
+						<a id="btn_Add" class="layui-btn layui-btn-primary" onclick="Menu.addMenu()"><i class="fa fa-plus"></i> 添加</a>
+						@} 
+						@if(shiro.hasPermission("/menu/edit")){ 
+						<a id="btn_Edit"
+							class="layui-btn layui-btn-primary" onclick="Menu.editMenu()"><i class="fa fa-edit"></i>
+							修改</a> 
+						@} 
+						@if(shiro.hasPermission("/menu/remove")){ 
+						<a id="btn_Del"
+							class="layui-btn layui-btn-primary" onclick="Menu.delMenu()"><i class="fa fa-remove"></i>
+							删除</a>
+						@}
+					</div>
+				</div>
+			</div>
+			<div class="gridPanel">
+                <table id="gridTable"></table>
+            </div>
+	    </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/plugins/layout/jquery.layout.js"></script>
+<script src="${ctxPath}/static/plugins/tree/tree.js"></script>
+<script src="${ctxPath}/static/js/system/menu.js"></script>
+@}

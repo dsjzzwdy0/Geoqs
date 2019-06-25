@@ -1,0 +1,58 @@
+@layout("/layout/_containerList.html"){
+<style>
+body {
+	margin-left: 5px;
+}
+</style>
+<link href="${ctxPath}/static/plugins/jqgrid/jqgrid.css"
+	rel="stylesheet" />
+<div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
+	<div class="ui-layout-center">
+		<div class="center-Panel">
+			<div class="panel-Title">单位管理</div>
+			<div class="titlePanel layui-form">
+				<div class="title-search">
+					<div class="layui-inline">
+						<label style="margin: 2px;">单位名称：</label>
+						<div class="layui-input-inline">
+							<input type="text" id="txt_Keyword" placeholder="请输入单位账号或名称"
+								autocomplete="off" class="layui-input">
+						</div>
+						<label style="margin: 2px;">单位类型：</label>
+						<div class="layui-input-inline">
+							<select lay-filter="unittype" id="unittype">
+								<option value="">请选择</option> @for(item in unitTypes!){
+								<option value="${item.code}">${item.name}</option> @}
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline">
+						<a id="btn_Search" class="layui-btn layui-btn-normal"><i
+							class="fa fa-search"></i> 搜索</a>
+					</div>
+				</div>
+				<div class="toolbar">
+					<div class="layui-btn-group">
+						<a class="layui-btn layui-btn-primary" onclick="reload();"><i
+							class="fa fa-refresh"></i>&nbsp;刷新</a> 
+						<a class="layui-btn layui-btn-primary" onclick="Dept.detail()"><i
+							class="fa fa-info-circle"></i> 详情</a> 
+						<a class="layui-btn layui-btn-primary" onclick="Dept.check()"><i
+							class="fa fa-edit"></i> 审核</a> 
+						<a class="layui-btn layui-btn-primary" onclick="Dept.delete()"><i
+							class="fa fa-remove"></i> 删除</a> 
+						<a class="layui-btn layui-btn-primary" onclick="Dept.resetPw()"><i
+							class="fa fa-key"></i> 重置密码</a>
+					</div>
+				</div>
+			</div>
+			<div class="gridPanel">
+				<table id="gridTable"></table>
+				<div id="gridPager"></div>
+			</div>
+		</div>
+	</div>
+</div>
+@}
+<script src="${ctxPath}/static/plugins/layout/jquery.layout.js"></script>
+<script src="${ctxPath}/static/js/system/dept.js"></script>

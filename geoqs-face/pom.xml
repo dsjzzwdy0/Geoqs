@@ -8,7 +8,7 @@
 	<url>http://maven.apache.org</url>
 
 	<parent>
-		<groupId>com.tigis</groupId>
+		<groupId>com.loris</groupId>
 		<artifactId>geoqs-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
@@ -98,8 +98,8 @@
 		
 		<!-- Soccer库 -->
 		<dependency>
-			<groupId>com.tigis</groupId>
-			<artifactId>geoqs-core</artifactId>
+			<groupId>com.loris</groupId>
+			<artifactId>geoqs-common</artifactId>
 			<version>${geoqs.version}</version>
 		</dependency>
 	</dependencies>

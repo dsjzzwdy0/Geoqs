@@ -1,0 +1,82 @@
+@layout("/layout/_containerForm.html"){
+<link href="${ctxPath}/static/plugins/tree/tree.css" rel="stylesheet"/>
+<div class="layui-main">
+	<div id="form1" class="layui-form layui-form-pane">
+	   <input type="hidden" id="id" value="${menu.id!}"/>
+	   <input type="hidden" id="pcodevalue" value="${menu.pcode!}"/>
+	   <div class="layui-row">
+		    <div class="layui-col-xs12">
+			    <label class="layui-form-label">父级菜单</label>
+			    <div class="layui-input-block">
+			      <div id="pcode" type="selectTree" class="ui-select"></div>
+			    </div>
+		    </div>
+		</div>
+		<div class="layui-row">
+		    <div class="layui-col-xs12">
+			    <label class="layui-form-label">菜单名称<font>*</font></label>
+			    <div class="layui-input-block">
+			      <input type="text" id="name" value="${menu.name!}" lay-verify="required"  lay-verType="tips" autocomplete="off" class="layui-input">
+			    </div>
+		    </div>
+		     </div>
+		    <div class="layui-row">
+		    <div class="layui-col-xs12">
+			    <label class="layui-form-label">菜单编号<font>*</font></label>
+			    <div class="layui-input-block">
+			      <input type="text" id="code" value="${menu.code!}" lay-verify="required" lay-verType="tips" autocomplete="off" class="layui-input">
+			    </div>
+		    </div>
+		  </div>
+		     <div class="layui-row">
+		    <div class="layui-col-xs12">
+			    <label class="layui-form-label">请求地址<font>*</font></label>
+			    <div class="layui-input-block">
+			      <input type="text" id="url" value="${menu.url!}" lay-verify="required" lay-verType="tips" autocomplete="off" class="layui-input">
+			    </div>
+		    </div>
+		  </div>
+		    <div class="layui-row">
+		    <div class="layui-col-xs12">
+			    <label class="layui-form-label">是否菜单<font>*</font></label>
+			    <div class="layui-input-block">
+			      <select id="ismenu">
+			        <option value="1" ${menu.ismenu!1==1?'selected': ''}>是</option>
+					<option value="0" ${menu.ismenu!1==0?'selected': ''}>否</option>
+			      </select>
+			    </div>
+		    </div>
+		  </div>
+		  <div class="layui-row">
+		    <div class="layui-col-xs12">
+			    <label class="layui-form-label">菜单状态<font>*</font></label>
+			    <div class="layui-input-block">
+			      <select id="status">
+			        <option value="1" ${menu.status!1==1?'selected': ''}>启用</option>
+					<option value="0" ${menu.status!1==0?'selected': ''}>禁用</option>
+			      </select>
+			    </div>
+		    </div>
+		  </div>
+			 <div class="layui-row">
+		    <div class="layui-col-xs12">
+			    <label class="layui-form-label">排序</label>
+			    <div class="layui-input-block">
+			      <input type="text" id="num" value="${menu.num!}" autocomplete="off" class="layui-input">
+			    </div>
+		    </div>
+		     </div>
+		    <div class="layui-row">
+		    <div class="layui-col-xs12">
+			    <label class="layui-form-label">图标</label>
+			    <div class="layui-input-block">
+			      <input type="text" id="icon" value="${menu.icon!}" autocomplete="off" class="layui-input">
+			    </div>
+		    </div>
+		  </div>
+		  <button id="hiddenbtn" style="display:none" lay-submit="" lay-filter="hiddenbtn">立即提交</button>
+	</div>
+</div>
+<script src="${ctxPath}/static/js/system/menuForm.js"></script>
+<script src="${ctxPath}/static/plugins/tree/tree.js"></script>
+@}

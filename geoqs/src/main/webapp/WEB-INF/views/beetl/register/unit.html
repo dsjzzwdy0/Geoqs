@@ -1,0 +1,224 @@
+<style>
+.multi dl dd.layui-this {
+	background-color: #fff
+}
+
+.layui-upload-img {
+	width: 92px;
+	height: 92px;
+	margin: 0 10px 10px 0;
+}
+
+.uploadCell {
+	width: 20%;
+	float: left;
+}
+
+.uploadCell .upload-label {
+	height: 38px;
+	background-color: #FBFBFB;
+	padding: 8px 15px
+}
+
+.uploadCard {
+	width: 99%;
+	height: 120px;
+	padding-top: 20px;
+	border: 1px dashed #e2e2e2;
+	text-align: center;
+	cursor: pointer;
+	color: #999
+}
+
+.uploadCell .layui-icon {
+	font-size: 50px;
+	color: #009688
+}
+</style>
+<div style="height: 10px;"></div>
+<p class="layui-elem-quote" style="font-weight: bold">单位注册</p>
+<div>
+	<div id="form1" class="layui-form layui-form-pane">
+		<div class="layui-row">
+			<div class="layui-col-xs6">
+				<label class="layui-form-label">单位账号<font>*</font></label>
+				<div class="layui-input-block">
+					<input type="text" id="account" lay-autoget="false" autocomplete="off" lay-verify="required"
+						lay-verType="tips" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-col-xs3">
+				<label class="layui-form-label">登录密码<font>*</font></label>
+				<div class="layui-input-block">
+					<input type="password" id="password" lay-autoget="false" autocomplete="off" lay-verify="required"
+						lay-verType="tips" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-col-xs3">
+				<label class="layui-form-label">验证密码<font>*</font></label>
+				<div class="layui-input-block">
+					<input type="password" id="rePassword" lay-autoget="false" autocomplete="off" lay-verify="required"
+						lay-verType="tips" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs6">
+				<label class="layui-form-label">单位全称<font>*</font></label>
+				<div class="layui-input-block">
+					<input type="text" id="fullname" autocomplete="off" lay-verify="required"
+						lay-verType="tips" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-col-xs6">
+				<label class="layui-form-label">简称</label>
+				<div class="layui-input-block">
+					<input type="text" id="simplename" autocomplete="off"  class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-form">
+				<label class="layui-form-label">单位类型<font>*</font></label>
+				<div class="layui-input-block">
+					<select id="typecode" multiple="multiple" lay-verify="required"
+						lay-verType="tips" >
+						@for(item in unitTypes!){
+						<option value="${item.code}">${item.name}</option>>
+						@}
+					</select>
+				</div>
+			</div>
+			<div class="layui-col-xs6">
+				<label class="layui-form-label">邮箱<font>*</font></label>
+				<div class="layui-input-block">
+					<input type="text" id="email" autocomplete="off" lay-verify="required|email"
+						lay-verType="tips" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs12 layui-form" id="area-picker" lay-filter="area-picker">
+				<label class="layui-form-label">所在地区<font>*</font></label>
+				<div class="layui-input-inline" style="width: 150px;">
+					<select id="province" name="province" class="province-selector"
+						lay-filter="province-1">
+						<option value="">请选择省</option>
+					</select>
+				</div>
+				<div class="layui-input-inline" style="width: 150px;">
+					<select id="city" name="city" class="city-selector" lay-filter="city-1">
+						<option value="">请选择市</option>
+					</select>
+				</div>
+				<div class="layui-input-inline" style="width: 150px;">
+					<select id="area" name="county" class="county-selector" lay-filter="county-1">
+						<option value="">请选择区</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs12">
+				<label class="layui-form-label">详细地址<font>*</font></label>
+				<div class="layui-input-block">
+					<input type="text" id="address" autocomplete="off" lay-verify="required"
+						lay-verType="tips" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs6">
+				<label class="layui-form-label">法人代表<font>*</font></label>
+				<div class="layui-input-block">
+					<input type="text" id="faren" autocomplete="off" lay-verify="required"
+						lay-verType="tips" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-col-xs6">
+				<label class="layui-form-label">法人电话</label>
+				<div class="layui-input-block">
+					<input type="text" id="farentel" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs6">
+				<label class="layui-form-label">联系人<font>*</font></label>
+				<div class="layui-input-block">
+					<input type="text" id="contact" autocomplete="off" lay-verify="required"
+						lay-verType="tips" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-col-xs6">
+				<label class="layui-form-label">联系电话</label>
+				<div class="layui-input-block">
+					<input type="text" id="contacttel" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row ">
+			<div class="layui-col-xs12 layui-form-text">
+				<label class="layui-form-label">单位简介</label>
+				<div class="layui-input-block">
+					<textarea id="bz" class="layui-textarea"></textarea>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="uploadCell layui-form-text">
+				<label class="layui-form-label">法定代表人身份证<font>*</font></label> <input
+					type="text" id="farencardno" autocomplete="off" lay-verify="required|identity"
+					lay-verType="tips" class="layui-input">
+				<div class="uploadCard" id="uploadFarenCard">
+					<i class="layui-icon"></i>
+					<p>上传法定代表人身份证</p>
+				</div>
+			</div>
+			<div class="uploadCell layui-form-text">
+				<label class="layui-form-label">联系人身份证<font>*</font></label> <input
+					type="text" id="contactcardno" autocomplete="off" lay-verify="required|identity"
+					lay-verType="tips" class="layui-input">
+				<div class="uploadCard" id="uploadContactCard">
+					<i class="layui-icon"></i>
+					<p>上传联系人身份证</p>
+				</div>
+			</div>
+			<div class="uploadCell layui-form-text">
+				<label class="layui-form-label">企业信用代码<font>*</font></label> <input
+					type="text" id="unitcode" autocomplete="off" lay-verify="required"
+					lay-verType="tips" class="layui-input">
+				<div class="uploadCard" id="uploadQYXYCard">
+					<i class="layui-icon"></i>
+					<p>上传企业信用代码证</p>
+				</div>
+			</div>
+			<div class="uploadCell layui-form-text">
+				<label class="layui-form-label">资质证书编号<font>*</font></label> <input
+					type="text" id="zzzsno" autocomplete="off" lay-verify="required"
+					lay-verType="tips" class="layui-input">
+				<div class="uploadCard" id="uploadZZZSCard">
+					<i class="layui-icon"></i>
+					<p>上传资质证书</p>
+				</div>
+			</div>
+			<div class="uploadCell layui-form-text">
+				<label class="layui-form-label"></label> <label
+					class="layui-form-label"></label>
+				<div class="uploadCard" id="uploadWTSCard">
+					<i class="layui-icon"></i>
+					<p>上传平台管理授权书</p>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+					<div class="layui-col-xs12" style="text-align:center">
+						<input type="checkbox" lay-skin="primary" lay-filter="agree_checkbox" title="已阅读并同意"  />
+						<a href="javascript:void(0);">《用户须知》</a>
+						<a href="javascript:void(0);">《企业质量承诺书》</a>
+						<button id="btn_Regedit" lay-submit lay-filter="btn_Regedit" class="layui-btn layui-btn-disabled" disabled>注册</button>
+					</div>
+		</div>
+	</div>
+</div>
+<script src="${ctxPath}/static/js/register-unit.js?v=1.0"></script>

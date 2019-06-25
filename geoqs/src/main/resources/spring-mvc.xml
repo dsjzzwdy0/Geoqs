@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:aop="http://www.springframework.org/schema/aop" 
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:cache="http://www.springframework.org/schema/cache"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd  
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd 
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.0.xsd
-        ">
-        
-    <!-- 支持 静态资源与springMVC的动态资源访问，两个缺一不可，缺少都无法支持访问 -->
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+	<!-- 支持 静态资源与springMVC的动态资源访问，两个缺一不可，缺少都无法支持访问 -->
 	<mvc:default-servlet-handler />
 	<mvc:annotation-driven />
 	
-	<!-- 自动扫描 -->	
-	<context:component-scan base-package="com.tigis.geoqs, com.loris.geoqs" />
+	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 ，com.loris.soccer包中包含了异常处理的类，也需要扫描否则无法处理异常-->
+	<context:component-scan base-package="com.loris.face,com.loris.soccer,com.loris.common, com.loris.auth,com.loris.common.exception" />
+	
+	<!-- 引入Spring -->
+    <import resource="classpath:spring-mybatis.xml" />
+    <import resource="classpath:spring-shiro.xml" />
 	
 	<!-- 启动SpringMVC的注解功能，完成请求和注解POJO的映射 -->
-	<bean
-		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
 			<list>
 				<ref bean="mappingJacksonHttpMessageConverter" /> <!-- JSON转换器 -->
@@ -30,10 +30,6 @@
 		</property>
 	</bean>
 	
-	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器-->
-	<context:component-scan base-package="com.tigis.geoqs.controller" /> 
-	<context:component-scan base-package="com.tigis.geoqs.sys.aop" /> 
-
 	<!--避免IE执行AJAX时，返回JSON出现下载文件 -->
 	<bean id="mappingJacksonHttpMessageConverter"
 		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
@@ -43,94 +39,62 @@
 			</list>
 		</property>
 	</bean>
-	
+	<!--返回文本时将编码修改为 UTF-8-->
+	<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+            <property name="supportedMediaTypes">
+                <list>
+                    <value>text/html;charset=UTF-8</value>
+                    <value>application/json;charset=UTF-8</value>
+                    <value>text/plain;charset=UTF-8</value>
+                    <value>application/xml;charset=UTF-8</value>
+                </list>
+            </property>
+     </bean>
 	<!-- 使用xml配置aop -->  
 	<!-- 强制使用cglib代理，如果不设置，将默认使用jdk的代理，但是jdk的代理是基于接口的 -->
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>  
 	<aop:config proxy-target-class="true" />
 	<aop:config>  <!--定义切面--> </aop:config>
 	
-	<!-- 
-	<bean id="logService" class="com.loris.lottery.aop.ArchivesLogAspect"></bean>
-    <aop:config>
-    	<aop:aspect id="logAop" ref="logService">
-	        <aop:pointcut id="log" expression="execution(* com.loris.lottery.controller.*.*(..))"/>
-	        <aop:before pointcut-ref="log" method="before"/>
-	        <aop:after pointcut-ref="log" method="after"/>
-	    </aop:aspect>
- 	</aop:config> 
-	-->
-
-	<!-- 引入tiles配置文件 -->
-	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer" >
-		<property name="definitions">
-			<list>
-				<value>classpath:tiles-defs.xml</value>
-			</list>
-		</property>
-	</bean>
-
-	<!--以下三种视图配置根据需要任选一种即可 -->
-	<!-- 配置视图解析器 -->
-	<bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-		<property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
-		<property name="order" value="1" />
-	</bean>
- 
-    <bean name="beetlConfig" class="org.beetl.ext.spring.BeetlGroupUtilConfiguration" init-method="init">
-    	<property name="configFileResource" value="classpath:beetl.properties" />
+	<!--以下视图配置根据需要任选一种即可 -->
+	<bean name="beetlConfig" class="com.loris.soccer.conf.BeetlConfiguration" init-method="init">
+    	<property name="configFileResource" value="classpath:/conf/beetl.properties" />
     </bean> 
     
-    <bean name="viewResovler" class="org.beetl.ext.spring.BeetlSpringViewResolver">
+    <bean name="beetlViewResovler" class="org.beetl.ext.spring.BeetlSpringViewResolver">
     	<property name="config" ref="beetlConfig" />
     	<property name="contentType" value="text/html;charset=UTF-8" />
     	<property name="suffix" value=".html" />
-    	<property name="order" value="2" />
+    	<property name="order" value="1" />
     	<property name="viewNames">
     		<list>
-    			<value>/user/**</value>
-    			<value>/admin/**</value>
+    			<value>/beetl/**</value>
+    			<value>/beetl/system/**</value>
     		</list>
     	</property>
     </bean>
-    
-	<!--配置Jsp视图解析器-->      
+	<!-- tiles视图解析器 -->
+	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer" >
+		<property name="definitions">
+			<list>
+				<value>classpath:/conf/tiles-defs.xml</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
+		<property name="order" value="2" />
+	</bean>
+	<!--配置Jsp视图解析器，该视图解析器Order宜为最大，因为是否找到一个视图模板，其始终返回一个默认的视图-->      
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">      
         <property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView" />  
         <property name="prefix" value="/WEB-INF/views/"/>        
         <property name="suffix" value=".jsp"/>            
         <property name="order" value="5"/>      
-    </bean>
-              
-    <!-- 配置freeMarker的模板路径 -->      
-    <!-- freemaker配置 
-    <bean id="freemarkerConfig" 
-        class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">  
-        <property name="templateLoaderPath" value="/WEB-INF/views/" />  
-        <property name="freemarkerSettings">  
-            <props>  
-                <prop key="template_update_delay">0</prop>  
-                <prop key="default_encoding">UTF-8</prop>  
-                <prop key="number_format">0.##########</prop>  
-                <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>  
-                <prop key="classic_compatible">true</prop>  
-                <prop key="template_exception_handler">ignore</prop>  
-            </props>  
-        </property>  
-    </bean> -->
-
-    <!-- 配置freeMarker视图解析器  
-    <bean id="ftlViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">      
-        <property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>      
-        <property name="contentType" value="text/html; charset=utf-8"/>      
-        <property name="cache" value="true" />      
-        <property name="suffix" value=".ftl" />    
-        <property name="order" value="0"/>
-    </bean>      -->    
+    </bean>   
     
 	<!-- 配置文件上传，如果没有使用文件上传可以不用配置，当然如果不配，那么配置文件中也不必引入上传组件包 -->
-	<bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<!-- 默认编码 -->
 		<property name="defaultEncoding" value="utf-8" />
 		<!-- 文件大小最大值 -->
@@ -139,23 +103,22 @@
 		<property name="maxInMemorySize" value="40960" />
 	</bean>
 	
-	<bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
-        <property name="config">
-            <bean class="com.google.code.kaptcha.util.Config">
-                <constructor-arg>
-                    <props>
-                        <prop key="kaptcha.border">yes</prop>
-                        <prop key="kaptcha.border.color">105,179,90</prop>
-                        <prop key="kaptcha.textproducer.font.color">blue</prop>
-                        <prop key="kaptcha.image.width">125</prop>
-                        <prop key="kaptcha.image.height">45</prop>
-                        <prop key="kaptcha.textproducer.font.size">45</prop>
-                        <prop key="kaptcha.session.key">code</prop>
-                        <prop key="kaptcha.textproducer.char.length">4</prop>
-                        <prop key="kaptcha.textproducer.font.names">宋体,楷体,微软雅黑</prop>
-                    </props>
-                </constructor-arg>
-            </bean>
-        </property>
+	<!--启用缓存注解-->
+    <cache:annotation-driven cache-manager="cacheManager"/>
+    <!-- 
+    <bean id="cacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+    	<property name="shared" value="true"/>
+        <property name="configLocation" value="classpath:/conf/ehcache.xml"/>
     </bean>
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="cacheManagerFactory"/>
+    </bean>
+     -->
+     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="cacheManagerFactory"/>
+    </bean>
+	<bean id="cacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+    	<property name="shared" value="true"/>
+        <property name="configLocation" value="classpath:/conf/ehcache.xml"/>
+    </bean>  
 </beans>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.loris.auth.dao.UserMapper">
+	<select id="list" resultType="map">
+		SELECT
+			a.account,
+			a.status,
+			a.regstatus,
+			d.fullname AS deptname,
+			group_concat(f. NAME SEPARATOR ',') AS `rolename`,
+			b.accountid as id,b.deptid,b.realname,b.gender,b.email,b.tel
+		FROM
+			sys_person b
+		LEFT JOIN sys_account a ON b.accountid = a.id
+		LEFT JOIN sys_dept d ON b.deptid = d.id
+		JOIN( select accountid, rolecode from sys_account_role 
+			<if test="persontype != null and persontype != ''">
+				where accountid in ( select accountid from sys_account_role where rolecode=#{persontype})
+			</if>
+			) e ON a.id = e.accountid
+		LEFT JOIN sys_role f ON e.rolecode = f.code
+		where 1=1
+		<if test="condition != null and condition != ''">
+			and a.account like CONCAT('%',#{condition},'%') or b.realname like CONCAT('%',#{condition},'%')
+		</if>
+		<if test="deptId != null and deptId != ''">
+			and b.deptid =#{deptId}
+		</if>
+		GROUP BY b.accountid
+	</select>
+</mapper>

@@ -1,0 +1,57 @@
+@layout("/layout/_containerForm.html"){
+<link href="${ctxPath}/static/plugins/ztree/zTreeStyle.css"
+	rel="stylesheet">
+<div class="layui-main">
+	<p style="font-weight: bold">当前用户：【${userAccount}】</p>
+	<div id="form1" class="layui-form layui-form-pane">
+		<div class="layui-row">
+			<div class="layui-col-xs12">
+				<ul id="zTree" class="ztree"></ul>
+			</div>
+		</div>
+	</div>
+</div>
+@}
+<script src="${ctxPath}/static/plugins/ztree/jquery.ztree.all.min.js"></script>
+<script src="${ctxPath}/static/js/ztree-object.js"></script>
+<script type="text/javascript">
+    $(function () {
+        initZtree();
+    });
+
+    function initZtree() {
+        var setting = {
+            check: {
+                enable: true,
+                chkboxType: {
+                    "Y": "",
+                    "N": ""
+                }
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            }
+        };
+        var ztree = new $ZTree("zTree", "/role/roleTreeListByUserId/${userId}");
+        ztree.setSettings(setting);
+        ztree.init();
+    }
+    function AcceptClick() {
+		var ids = Geomonitor.zTreeCheckedNodes("zTree");
+		var postData = {
+			"userId" : "${userId}",
+			"roleIds" : ids
+		}
+		$.SaveForm({
+			url : Geomonitor.ctxPath + "/mgr/setRole",
+			param : postData,
+			loading : "正在保存数据...",
+			success : function(data) {
+				$.currentIframe().$("#gridTable").trigger("reloadGrid");
+			}
+		})
+	}
+</script>
+

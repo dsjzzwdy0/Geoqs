@@ -8,14 +8,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guns - 登录</title>
+    <title>工程勘察质量监管平台 - 登录</title>
     <link rel="shortcut icon" href="${ctxPath}/content/favicon.ico">
-    <link href="${ctxPath}/content/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="${ctxPath}/content/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="${ctxPath}/content/plugins/bootstrap-4.3.0/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="${ctxPath}/content/fonts/css/font-awesome.css?v=4.4.0" rel="stylesheet">
     <link href="${ctxPath}/content/css/animate.css" rel="stylesheet">
     <link href="${ctxPath}/content/css/style.css?v=4.1.0" rel="stylesheet">
-    <script src="${ctxPath}/content/js/jquery.min.js?v=2.1.4"></script>
-    <script src="${ctxPath}/content/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="${ctxPath}/content/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="${ctxPath}/content/plugins/bootstrap-4.3.0/js/bootstrap.min.js?v=3.3.6"></script>
 </head>
 
 <body class="gray-bg">
@@ -26,11 +26,7 @@ if (window.top !== window.self) {
 </script>
 <div class="middle-box text-center loginscreen  animated fadeInDown">
     <div style="padding: 10px 0px;">
-        <div>
-            <h1 class="logo-name">GS</h1>
-        </div>
-        <h3>欢迎使用 Guns <qs:date/> </h3>
-        <br/>
+        <h3>天津市工程勘察质量监管平台 </h3>
         <h4 style="color: red;">${tips}</h4>
         <form class="m-t" role="form" action="${ctxPath}/login" method="post">
             <div class="form-group">
@@ -40,14 +36,6 @@ if (window.top !== window.self) {
                 <input type="password" name="password" class="form-control" placeholder="密码" required="">
             </div>
             <div class="form-group" style="float: left;">
-                <div class="col-sm-8" style="padding-left: 0px; padding-right: 0px;">
-                    <input class="form-control" type="text" name="kaptcha" placeholder="验证码" required="">
-                </div>
-                <div class="col-sm-4" style="padding-left: 0px; padding-right: 0px;">
-                    <img src="${ctxPath}/kaptcha" id="kaptcha" width="100%" height="100%"/>
-                </div>
-            </div>
-            <div class="form-group" style="float: left;">
                 <div class="checkbox" style="text-align: left">
                     <label>
                         <input type="checkbox" name="remember" style="margin-top: 2px;">记住我
@@ -55,7 +43,12 @@ if (window.top !== window.self) {
                 </div>
             </div>
             <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
-            </p>
+        	<div class="form-group" style="float: left;">
+                <a href="register?type=person" class="fl">没有账号?立即注册</a>
+            </div>
+            <div class="form-group" style="float: right;">
+                <a href="javascript:;" class="fr">忘记密码？</a>
+            </div>
         </form>
     </div>
 </div>
@@ -67,7 +60,5 @@ if (window.top !== window.self) {
         });
     });
 </script>
-
 </body>
-
 </html>

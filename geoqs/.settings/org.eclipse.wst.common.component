@@ -4,13 +4,14 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <dependent-module archiveName="geoqs-sys-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/geoqs-sys/geoqs-sys">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="geoqs-core-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/geoqs-core/geoqs-core">
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test"/>
+        <dependent-module archiveName="geoqs-common-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/geoqs-common/geoqs-common">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="geoqs-face-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/geoqs-face/geoqs-face">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="geoqs-auth-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/geoqs-auth/geoqs-auth">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="context-root" value="geoqs"/>

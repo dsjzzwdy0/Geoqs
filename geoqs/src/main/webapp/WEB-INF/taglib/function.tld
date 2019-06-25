@@ -9,7 +9,7 @@
 	<function> 
 		<description>Check User Permission</description>
 		<name>hasPermission</name> 
-		<function-class>com.tigis.geoqs.security.ShiroKit</function-class>
+		<function-class>com.loris.auth.security.ShiroKit</function-class>
 		<function-signature>boolean hasPermission(java.lang.String)</function-signature>
 	</function>
 

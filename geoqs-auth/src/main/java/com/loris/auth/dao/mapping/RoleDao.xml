@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.loris.auth.dao.RoleMapper">
+	<select id="selectRoleNameAndCodes" resultType="map">
+		select code,name from sys_role
+		<if test="type != null and type != ''">
+			where type =#{type}
+		</if>
+		order by num
+	</select>
+	<sql id="Base_Column_List">
+		id, num, name,code,type, tips, bz
+	</sql>
+
+	<select id="selectByCode" resultType="com.loris.auth.model.Role">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role
+		where code =#{code}
+	</select>
+	
+	<select id="selectRoles" resultType="map">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role
+		<if test="condition != null">
+			where name like CONCAT('%',#{condition},'%')
+		</if>
+		order by num asc
+	</select>
+
+	<delete id="deleteRolesById">
+		delete from sys_relation where roleid = #{roleId}
+	</delete>
+
+	<select id="roleTreeList" resultType="com.loris.auth.model.node.ZTreeNode">
+		select id "id",name as "name" from sys_role order by num
+	</select>
+
+	<select id="roleTreeListByRoleCode" resultType="com.loris.auth.model.node.ZTreeNode">
+		SELECT
+		r.id "id",
+		NAME AS "name",
+		(
+		CASE
+		WHEN (r1.ID = 0 OR r1.ID IS NULL) THEN
+		'false'
+		ELSE
+		'true'
+		END
+		) "checked"
+		FROM
+		sys_role r
+		LEFT JOIN (
+		SELECT
+		ID
+		FROM
+		sys_role
+		WHERE
+		code IN 
+		
+		<foreach collection="array" index="index" item="i" open="(" separator="," close=")">  
+        #{i}
+    	</foreach>
+		
+		) r1 ON r.ID = r1.ID
+		ORDER BY
+		num ASC
+	</select>
+	
+	<select id="roleTreeListByRoleId" resultType="com.loris.auth.model.node.ZTreeNode">
+		SELECT
+		r.id "id",
+		NAME AS "name",
+		(
+		CASE
+		WHEN (r1.ID = 0 OR r1.ID IS NULL) THEN
+		'false'
+		ELSE
+		'true'
+		END
+		) "checked"
+		FROM
+		sys_role r
+		LEFT JOIN (
+		SELECT
+		ID
+		FROM
+		sys_role
+		WHERE
+		id IN 
+		
+		<foreach collection="array" index="index" item="i" open="(" separator="," close=")">  
+        #{i}
+    	</foreach>
+		
+		) r1 ON r.ID = r1.ID
+		ORDER BY
+		num ASC
+	</select>
+
+</mapper>

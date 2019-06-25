@@ -1,0 +1,49 @@
+<div class="fly-header layui-bg-blue">
+  <span style="position:absolute;line-height:60px;font-size:x-large;margin-left:20px;">天津市工程勘察质量监管平台</span>
+  <div class="layui-container">
+    <ul class="layui-nav fly-nav layui-hide-xs">
+    	@var activeCss="layui-this";
+    	@for(title in titles){
+                @if(tool.isEmpty(title.children)){
+                    <li class="layui-nav-item ${activeCss}">
+                    	<a class="menuItem" href="${ctxPath}${title.url}"><i class="${title.icon}"></i>${title.name}</a>
+                    </li>
+                @}else{
+                    <li class="layui-nav-item">
+                    	<a href="javascript:void(0);"><i class="${title.icon}"></i>${title.name}</a>
+                        <dl class="layui-nav-child">
+                            @for(subTitle in title.children){
+                               <dd>
+							       <a class="menuItem" href="${ctxPath}${subTitle.url}"><i class="${subTitle.icon}"></i>${subTitle.name}</a>
+							   </dd>
+                            @}
+                        </dl>
+                    </li>
+                @}
+         @activeCss="";
+         @}
+    </ul>
+    
+    <ul class="layui-nav fly-nav-user">
+      <!-- 登入后的状态 -->
+      <li class="layui-nav-item">
+        <a class="fly-nav-avatar" href="javascript:;">
+          <cite class="layui-hide-xs">欢迎您：${shiro.getUser().name!}</cite>
+          <img 
+	          @if(avatar==null){
+	      	 	src="${ctxPath}/static/images/logo.png" 
+		      @} else{
+		      	 src="${ctxPath}/static/images/${avatar}" 
+		      @} 
+		   />
+        </a>
+        <dl class="layui-nav-child">
+          <dd><a href="${ctxPath}/mgr/user_info"><i class="layui-icon">&#xe68e;</i>个人资料</a></dd>
+          <dd><a href="${ctxPath}/mgr/user_chpwd"><i class="layui-icon" style="top: 4px;">&#xe620;</i>修改密码</a></dd>
+          <hr style="margin: 5px 0;">
+          <dd><a href="${ctxPath}/logout" style="text-align: center;">安全退出</a></dd>
+        </dl>
+      </li>
+    </ul>
+  </div>
+</div>

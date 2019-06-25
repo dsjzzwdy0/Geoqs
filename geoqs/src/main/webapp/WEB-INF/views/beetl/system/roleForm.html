@@ -1,0 +1,97 @@
+@layout("/layout/_containerForm.html"){
+<div class="layui-main">
+	<div id="form1" class="layui-form layui-form-pane">
+		<input type="hidden" id="id" value="${role.id!}" />
+		<div class="layui-row">
+			<div class="layui-col-xs12">
+				<label class="layui-form-label">角色名称<font>*</font></label>
+				<div class="layui-input-block">
+					<input type="text" id="name" value="${role.name!}"
+						lay-verify="required" lay-verType="tips" autocomplete="off"
+						class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs12">
+				<label class="layui-form-label">角色编号<font>*</font></label>
+				<div class="layui-input-block">
+					<input type="text" id="code" value="${role.code!}"
+						lay-verify="required" lay-verType="tips" autocomplete="off"
+						class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs12">
+				<label class="layui-form-label">角色类型<font>*</font></label>
+				<div class="layui-input-block">
+					<select id="type" lay-verify="required" lay-verType="tips">
+						<option value="">请选择</option>
+						<option value="0" ${role.type!1==0?'selected': ''}>系统角色</option>
+						<option value="1" ${role.type!0==1?'selected': ''}>用户注册角色</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs12">
+				<label class="layui-form-label">角色别名</label>
+				<div class="layui-input-block">
+					<input type="text" id="tips" value="${role.tips!}"
+						autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs12">
+				<label class="layui-form-label">排序</label>
+				<div class="layui-input-block">
+					<input type="text" id="num" value="${role.num!}" autocomplete="off"
+						class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs12 layui-form-text">
+				<label class="layui-form-label">角色描述</label>
+				<div class="layui-input-block">
+					<textarea id="bz" class="layui-textarea">${role.bz}</textarea>
+				</div>
+			</div>
+		</div>
+		<button id="hiddenbtn" style="display: none" lay-submit=""
+			lay-filter="hiddenbtn">立即提交</button>
+	</div>
+</div>
+<script>
+	//加载layui的form模块，否则select元素不会渲染
+	layui.use('form', function() {
+		var form = layui.form;
+		//监听提交
+		form.on('submit(hiddenbtn)', function(data) {
+			return false;
+		});
+	});
+	//保存表单
+	function AcceptClick() {
+		$("#hiddenbtn").trigger("click");
+		if ($('.layui-form-danger').length > 0) {
+			return false;
+		}
+		var postData = $("#form1").GetWebControls();
+		var url = Geomonitor.ctxPath + "/role/add";
+		if (postData.id) {
+			url = Geomonitor.ctxPath + "/role/edit";//有id则为修改
+		}
+		$.SaveForm({
+			url : url,
+			param : postData,
+			loading : "正在保存数据...",
+			success : function(data) {
+				$.currentIframe().$("#gridTable").trigger("reloadGrid");
+			}
+		})
+	}
+</script>
+@}

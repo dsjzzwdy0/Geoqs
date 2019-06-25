@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>天津市工程勘察质量监管平台</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="renderer" content="webkit"/><!-- 让360浏览器默认选择webkit内核 -->
+  <meta name="keywords" content="天津,工程勘察,质量监管">
+  <meta name="description" content="天津市工程勘察质量监管平台">
+  <link rel="stylesheet" href="${ctxPath}/static/layui/css/layui.css">
+  <link rel="stylesheet" href="${ctxPath}/static/css/global.css">
+  <link rel="stylesheet" href="${ctxPath}/static/css/font-awesome.min.css">
+</head>
+<body>
+	<div id="ajax-loader" style="cursor: progress; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%; background: #fff; z-index: 10000; overflow: hidden;">
+        <img src="${ctxPath}/static/images/ajax-loader.gif" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto;" />
+    </div>
+
+		<!--上部导航开始-->
+       	@include("/layout/_nav.html"){}
+        <!--上部导航结束-->
+        
+        <!--主体部分开始-->
+        <div id="loading_background" class="loading_background" style="display: none;"></div>
+	    <div id="loading_manage">
+	        	正在拼了命为您加载…
+	    </div>
+        
+        <div id="mainContent"  style="margin-top:61px;font-size:0px;">
+	    	<iframe  id="mainFrame" width="100%" height="100%" src="${ctxPath}/dept" frameborder="0"></iframe>
+        </div>
+        <!--主体部分结束-->
+        
+        <!--footer开始-->
+        @include("/layout/_footer.html"){}
+        <!--footer结束-->
+<script src="${ctxPath}/static/plugins/jquery.min.js?v=2.1.4"></script>
+<script src="${ctxPath}/static/layui/layui.js"></script>
+<script src="${ctxPath}/static/plugins/dialog/dialog.js"></script>
+<script src="${ctxPath}/static/js/tigis-nav.js?v=1.0"></script>
+<script src="${ctxPath}/static/js/tigis-ui.js?v=1.0"></script>
+<script>
+	var contentPath="${ctxPath}";
+	layui.use(['element'], function(){
+		  var element = layui.element;
+	});
+//页面初始化加载
+$(function () {
+	$('#mainContent').height($(window).height() - 130);
+    $(window).resize(function (e) {
+        $('#mainContent').height($(window).height() - 130);
+    });
+    $(window).load(function () {
+        window.setTimeout(function () {
+            $('#ajax-loader').fadeOut();
+        }, 300);
+    });
+});
+</script>
+</body>
+</html>

@@ -2,29 +2,30 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"	
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:tx="http://www.springframework.org/schema/tx"  
 	xsi:schemaLocation="http://www.springframework.org/schema/beans    
-                        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd    
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd    
                         http://www.springframework.org/schema/context    
-                        http://www.springframework.org/schema/context/spring-context-4.0.xsd    
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd    
                         http://www.springframework.org/schema/mvc    
                         http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
                         http://www.springframework.org/schema/cache
-                        http://www.springframework.org/schema/cache/spring-cache-4.0.xsd
-                        ">
-                        	
+       					http://www.springframework.org/schema/cache/spring-cache.xsd
+       					http://www.springframework.org/schema/tx 
+                        http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+       					
 	<!-- 基础数据所需的运行环境类 -->
-	<bean id="springContextHolder" class="com.tigis.geoqs.util.SpringContextHolder"/>
+	<bean id="applicationContext" class="com.loris.common.context.ApplicationContextHelper"/>
 	
+	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
+	<context:component-scan base-package="com.loris.common" />
+    
 	<!-- 引入配置文件 -->
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>classpath:jdbc.properties</value>
-			</list>
-		</property>
+		<property name="location" value="classpath:jdbc.properties" />
 	</bean>
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
@@ -33,32 +34,34 @@
 		<property name="username" value="${username}" />
 		<property name="password" value="${password}" />
 		<property name="initialSize" value="${initialSize}"></property>		<!-- 初始化连接大小 -->
-		<property name="maxActive" value="${maxActive}"></property>		<!-- 连接池最大数量 -->
-		<property name="maxIdle" value="${maxIdle}"></property>	 <!-- 连接池最大空闲 -->
-		<property name="minIdle" value="${minIdle}"></property>  <!-- 连接池最小空闲 -->
-		<property name="maxWait" value="${maxWait}"></property>  <!-- 获取连接最大等待时间 -->
+		<property name="maxActive" value="${maxActive}"></property>			<!-- 连接池最大数量 -->
+		<property name="maxIdle" value="${maxIdle}"></property>	 			<!-- 连接池最大空闲 -->
+		<property name="minIdle" value="${minIdle}"></property>  			<!-- 连接池最小空闲 -->
+		<property name="maxWait" value="${maxWait}"></property>  			<!-- 获取连接最大等待时间 -->
+		<property name="validationQuery" value="SELECT 1"></property>
+		<property name="testWhileIdle" value="true"></property>
+		<property name="testOnBorrow" value="true"></property>
+		<property name="timeBetweenEvictionRunsMillis" value="3600000"></property>
+		<property name="numTestsPerEvictionRun" value="50"></property>
+		<property name="minEvictableIdleTimeMillis" value="120000"></property>
+		<property name="removeAbandoned" value="true"/>
+		<property name="removeAbandonedTimeout" value="6000000"/>
 	</bean>
 	
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 
-	<!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
-	<!-- 自动扫描mapping.xml文件 <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
-		<property name="dataSource" ref="dataSource" /> <property name="mapperLocations" 
-		value="classpath:com/loris/soccer/web/mapping/*.xml"></property> </bean> -->
-
 	<bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<!-- 自动扫描Mapping.xml文件 -->
 		<property name="mapperLocations">
 			<list>
-			    <value>classpath*:com/tigis/geoqs/**/dao/mapping/*Mapper.xml</value>
+			    <value>classpath*:com/loris/auth/dao/mapping/*.xml</value>
 			</list>
 		</property>
-		<property name="configLocation" value="classpath:mybatis-config.xml" />
-		<property name="typeAliasesPackage" value="com.tigis.geoqs.sys.dao,
-			com.tigis.geoqs.sys.model, com.loris.geoqs.face.dao" />
+		<property name="configLocation" value="classpath:/conf/mybatis-config.xml" />
+		<property name="typeAliasesPackage" value="com.loris.client, com.loris.soccer, com.loris.face, com.loris.auth" />
 		<property name="plugins">
 			<array>
 				<!-- 分页插件配置 -->
@@ -73,15 +76,15 @@
 	            <property name="refresh" value="true"/>
 	        </bean>
 	    </property>
-		<!-- 全局配置注入
-		<property name="globalConfig" ref="globalConfig" /> -->
 	</bean>
     
 	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
 	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="
-		    com.tigis.geoqs.sys.dao,
-		    com.loris.geoqs.face.dao" />
+		    com.loris.client.dao,
+		    com.loris.auth.dao,
+		    com.loris.face.dao,
+		    com.loris.soccer.dao" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
 	</bean>
 
@@ -90,24 +93,26 @@
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-	
-	<bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
-		<property name="config">
-			<bean class="com.google.code.kaptcha.util.Config">
-				<constructor-arg>
-					<props>
-						<prop key="kaptcha.border">yes</prop>
-						<prop key="kaptcha.border.color">105,179,90</prop>
-						<prop key="kaptcha.textproducer.font.color">blue</prop>
-						<prop key="kaptcha.image.width">125</prop>
-						<prop key="kaptcha.image.height">45</prop>
-						<prop key="kaptcha.textproducer.font.size">45</prop>
-						<prop key="kaptcha.session.key">code</prop>
-						<prop key="kaptcha.textproducer.char.length">4</prop>
-						<prop key="kaptcha.textproducer.font.names">宋体,楷体,微软雅黑</prop>
-					</props>
-				</constructor-arg>
-			</bean>
-		</property>
-	</bean> 
+	<!-- 事务注解 -->
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+	<!-- 验证码数据配置 -->
+    <bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
+        <property name="config">
+            <bean class="com.google.code.kaptcha.util.Config">
+                <constructor-arg>
+                    <props>
+                        <prop key="kaptcha.border">yes</prop>
+                        <prop key="kaptcha.border.color">105,179,90</prop>
+                        <prop key="kaptcha.textproducer.font.color">blue</prop>
+                        <prop key="kaptcha.image.width">125</prop>
+                        <prop key="kaptcha.image.height">45</prop>
+                        <prop key="kaptcha.textproducer.font.size">45</prop>
+                        <prop key="kaptcha.session.key">code</prop>
+                        <prop key="kaptcha.textproducer.char.length">4</prop>
+                        <prop key="kaptcha.textproducer.font.names">宋体,楷体,微软雅黑</prop>
+                    </props>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
 </beans>

@@ -16,19 +16,18 @@
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" /> <!--加载管理器-->
 		<property name="loginUrl" value="/login" />    <!--没有登录的时候，跳转到这个页面-->
-		<property name="unauthorizedUrl" value="/nopermission" /> <!--当没有权限的时候，跳转到这个url-->
-		 
+		<property name="unauthorizedUrl" value="/nopermission" /> <!--当没有权限的时候，跳转到这个url--> 
 		<property name="filterChainDefinitions">
 			<value>
 				/login = anon
 				/logout = anon
 				/index = authc
 				/user/list = anon
-				/content/** = anon <!-- 不需要任何权限 -->
-				/user/login = anon <!--可以不需要登录-->
-				/user/readName = authc, perms[/readName]  <!-- perms 表示需要该权限才能访问的页面 -->
+				/content/** = anon 							<!-- 不需要任何权限 -->
+				/user/login = anon 							<!-- 可以不需要登录-->
+				/user/readName = authc, perms[/readName]  	<!-- perms 表示需要该权限才能访问的页面 -->
 				/user/readData = authc, perms[/readData]
-				/user/* = authc <!-- authc 表示需要认证才能访问的页面 -->
+				/user/** = authc 							<!-- authc 表示需要认证才能访问的页面 -->
 				/mgr/** = authc
 				/role/** = authc
 				/dept/** = authc
@@ -38,7 +37,7 @@
 	</bean>
 
 	<!-- 自定义Realm -->
-	<bean id="geoqsShiroRealm" class="com.tigis.geoqs.security.ShiroDbRealm"> 
+	<bean id="authShiroRealm" class="com.loris.auth.security.ShiroDbRealm"> 
 		<!--配置加密算法-->
         <property name="credentialsMatcher">
             <!--shiro加密策略MD5-->
@@ -54,10 +53,10 @@
 
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<!-- 注入realm -->
-		<property name="realm" ref="geoqsShiroRealm"/>
+		<property name="realm" ref="authShiroRealm"/>
 		
-		<!-- 使用下面配置的缓存管理器 -->
-	    <!-- <property name="cacheManager" ref="cacheManager"/> -->
+		<!-- 使用下面配置的缓存管理器-->
+	    <property name="cacheManager" ref="cacheManager0"/>
 	    <property name="sessionManager" ref="sessionManager" />
 	    <property name="rememberMeManager" ref="rememberMeManager"/>
 	</bean>
@@ -80,6 +79,7 @@
 	    <property name="httpOnly" value="true"/>
 	    <property name="maxAge" value="2592000"/><!-- 30天 -->
 	</bean>
+	
 	<!-- rememberMe管理器:cipherKey是加密rememberMe Cookie的密钥；默认AES算法 -->
 	<bean id="rememberMeManager"
 	      class="org.apache.shiro.web.mgt.CookieRememberMeManager">
@@ -88,7 +88,16 @@
 	</bean>
 
 	<!--声明一个Service 注入到自定义Realm
-	<bean id="accountService" class="com.Service.Impl.ShiroServiceImpl"/>-->
-	<!-- <bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager"> 
-		<property name="cacheManager" ref="cacheManager" /> </bean> -->
+	<bean id="accountService" class="com.Service.Impl.ShiroServiceImpl"/>
+	<bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager"> 
+		<property name="cacheManager" ref="cacheManager" /> 
+	</bean>
+	
+	<bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager"> 
+		<property name="cacheManagerConfigFile" value="classpath:/conf/shiro-ehcache.xml"/> 
+	</bean>-->
+	
+	<bean id="cacheManager0" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManager" ref="cacheManagerFactory"/>
+    </bean>  
 </beans>
