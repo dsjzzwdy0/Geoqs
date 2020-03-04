@@ -37,7 +37,7 @@
 		<xalan.version>2.7.2</xalan.version>
 		<jdom.version>2.0.2</jdom.version>
 		<jsoup.version>1.11.2</jsoup.version>
-		<jackson.version>2.9.8</jackson.version>
+		<jackson.version>2.10.3</jackson.version>
 		<fastjson.version>1.2.47</fastjson.version>
 		<opencv.version>3.4.1-1.4.1</opencv.version>
 	</properties>
